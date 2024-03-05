@@ -1,6 +1,6 @@
 
-from Library import Library
-from Book import Book
+from library import Library
+from book import Book
 from sortedcontainers import SortedSet
 class DataManager:    
     def __init__(self,filename):
