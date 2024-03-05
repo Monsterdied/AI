@@ -6,7 +6,7 @@ class DataManager:
     def __init__(self,filename):
         self.filename = "./data/" + filename
         self.libraries = {}
-        self.books = {}
+        self.books = []
         file1 = open(self.filename, 'r')
         line = file1.readline()
         self.read_first_line_info(line)
@@ -35,7 +35,7 @@ class DataManager:
         data = line.split(' ')
         i = 0
         for rating in data:
-            self.books[i] = int(rating)
+            self.books.append(int(rating))
             i += 1
         if i != self.nBooks:
             print("Error in reading book rating\nNumber of books read is not equal to the number of books mentioned in the file rating")
@@ -67,6 +67,6 @@ class DataManager:
             print("\n")
 
 if __name__ == "__main__":
-    manager =DataManager("f_libraries_of_the_world.txt")
+    manager =DataManager("a_example.txt")
     manager.print_libraries()
             
