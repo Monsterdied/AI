@@ -21,16 +21,31 @@
     <li> Cada biblioteca, também com um ID, contém um conjunto de livros, o tempo (em dias) que demora para dar "sign" da livraria e um limite de quantos livros podem ser "scanned" por dia. </li>
     <li> Existem D dias desde o dia 0 ao dia D-1, na qual no último dia é o último dia em que os livros podem ser enviados para "scanning". </li>
     <li> O processo de inscrição só uma biblioteca de cada vez e só pode começar quando não houver outro processo de inscrição a decorrer. A ordem não importa e os livros podem ser "scanned" quando o processo de inscrição conclui (dia seguinte). </li>
+    <p align="center">
+        <img src="Images/signup.png" alt="Alternate Text">
+    </p>
     <li> Todos os livros são "scanned", e cada livraria tem um número limite de livros que pode enviar. Cada processo de envio e de scanning demora um dia. </li>
+    <p align="center">
+        <img src="Images/scanning.png" alt="Alternate Text">
+    </p>
 </ul>
 
 <p style="font-size:16px;"> O objetivo é planear quais livros de cada biblioteca devem ser "scanneados" de forma a maximizar a pontuação total. </p>
 
-
 <p style="font-size:30px;"><b>2. Referências bibliográficas</b></p>
+
 
 <p style="font-size:30px;"><b>3. Formulação do problema</b></p>
 
+<p style="font-size:16px;">O problema pode ser formulado como um problema de otimização, na qual pode ser dividido em secções:</p>
+
+<ol>
+    <li> Representação da solução: </li>
+    <li> Neighborhood/Mutation: </li>
+    <li> Funções Crossover: </li>
+    <li> Hard Constraints:</li>
+    <li> Funções de avaliação:</li>
+</ul>
 <p style="font-size:30px;"><b>4. Implementações realizadas</b></p>
 
 
