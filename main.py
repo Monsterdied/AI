@@ -1,8 +1,10 @@
 
 from library import Library
 from book import Book
-from sortedcontainers import SortedSet
+from sortedcontainers import SortedList
 class DataManager:    
+
+    # ------------------------------------read data -----------------------------------
     def __init__(self,filename):
         self.filename = "./data/" + filename
         self.libraries = {}
@@ -47,7 +49,7 @@ class DataManager:
         canShipBooksPerDay = int(data[2])
         bookIds = secondLine.split(' ')
         books = self.books
-        LibraryBooks = SortedSet()
+        LibraryBooks = SortedList()
         i = 0
         for bookid in bookIds:# pode se alterar o ordered set para lista la a frente é so necessario ordenar mas para ja vamos tentar assim
             LibraryBooks.add(Book(self.books[int(bookid)],int(bookid)))
@@ -55,6 +57,8 @@ class DataManager:
         self.libraries[libraryId] = Library(nbooks,signTime,canShipBooksPerDay,LibraryBooks)
         if i != nbooks:
             print("Number of books from library read is not equal to the number of books mentioned in the file rating")
+
+    # ------------------------------------Print data-----------------------------------
     def print_libraries(self):
         for library in self.libraries:
             print("Library: " + str(library))
@@ -65,6 +69,7 @@ class DataManager:
             print("Books per day: " + str(self.libraries[library].canShipBooksPerDay))
             print("Number of books: " + str(self.libraries[library].nbooks))
             print("\n")
+    # ------------------------------------Mutation-----------------------------------
 
 if __name__ == "__main__":
     manager =DataManager("a_example.txt")
