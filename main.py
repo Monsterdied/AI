@@ -1,6 +1,7 @@
 
 from library import Library
 from book import Book
+from solution import Solution
 from sortedcontainers import SortedList
 class DataManager:    
 
@@ -9,6 +10,7 @@ class DataManager:
         self.filename = "./data/" + filename
         self.libraries = {}
         self.books = []
+        self.signTimeToLibraries = {}
         file1 = open(self.filename, 'r')
         line = file1.readline()
         self.read_first_line_info(line)
@@ -73,5 +75,8 @@ class DataManager:
 
 if __name__ == "__main__":
     manager =DataManager("a_example.txt")
-    manager.print_libraries()
+    newSolution = Solution()
+    newSolution.generate(manager)
+    print(newSolution)
+    #manager.print_libraries()
             
