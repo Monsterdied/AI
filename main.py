@@ -48,6 +48,10 @@ class DataManager:
         data = firstLine.split(' ')
         nbooks = int(data[0])
         signTime = int(data[1])
+        if(signTime in self.signTimeToLibraries.keys()):
+            self.signTimeToLibraries[signTime].append(libraryId)
+        else:
+            self.signTimeToLibraries[signTime] = [libraryId]
         canShipBooksPerDay = int(data[2])
         bookIds = secondLine.split(' ')
         books = self.books
@@ -74,9 +78,12 @@ class DataManager:
     # ------------------------------------Mutation-----------------------------------
 
 if __name__ == "__main__":
-    manager =DataManager("a_example.txt")
+    manager =DataManager("b_read_on.txt")
     newSolution = Solution()
     newSolution.generate(manager)
+    print(newSolution)
+    newSolution.mutation(manager)
+    print(newSolution.BooksSelectedByLibrary.keys())
     print(newSolution)
     #manager.print_libraries()
             
