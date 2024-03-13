@@ -61,7 +61,7 @@ class Solution:
                 PossibleLibraries.remove(library_id)
             mutations += 1
         if library_id == -1:
-            print("No possible library to swap")
+            #print("No possible library to swap")
             return
         #remove the library from the list of libraries
         self.LibrariesSelected[library_index] = library_id

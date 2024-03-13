@@ -3,6 +3,7 @@ from library import Library
 from book import Book
 from solution import Solution
 from sortedcontainers import SortedList
+import copy
 class DataManager:    
 
     # ------------------------------------read data -----------------------------------
@@ -76,13 +77,33 @@ class DataManager:
             print("Number of books: " + str(self.libraries[library].nbooks))
             print("\n")
     # ------------------------------------Mutation-----------------------------------
+    def hill_climbing(self,num_iterations, log=False):
+        iteration = 0
+        solution = Solution()
+        solution.generate(self)
+        # Best solution after 'num_iterations' iterations without improvement
+        best_solution = copy.deepcopy(solution) 
+
+        best_score = best_solution.currScore
+        
+        print(f"Init Solution:  {best_score}, score: {best_score}")
+        
+        while iteration < num_iterations:
+            iteration += 1
+            neighbor_solution = copy.deepcopy(best_solution)
+            neighbor_solution.mutation(self)
+            neighbor_score = neighbor_solution.currScore 
+            if neighbor_score > best_score:
+                best_solution = neighbor_solution
+                best_score = neighbor_score
+                if log:
+                    (print(f"Solution:       {best_solution}, score: {best_score}"))       
+        print(f"Final Solution: {best_score}, score: {best_score}")
+        return best_solution
 
 if __name__ == "__main__":
     manager =DataManager("b_read_on.txt")
-    newSolution = Solution()
-    newSolution.generate(manager)
-    print(newSolution)
-    newSolution.mutation(manager)
+    newSolution = manager.hill_climbing(100, True)
     print(newSolution.BooksSelectedByLibrary.keys())
     print(newSolution)
     #manager.print_libraries()
