@@ -99,11 +99,12 @@ class DataManager:
                 if log:
                     (print(f"Solution:       {iteration}, score: {best_score}"))       
         print(f"Final Solution: {best_score}, firstscore: {first_score}")
+        print(solution.checkSolution(self))
         return best_solution
 
 if __name__ == "__main__":
     manager =DataManager("e_so_many_books.txt")
-    manager.hill_climbing(1200, True)
+    manager.hill_climbing(100, True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())

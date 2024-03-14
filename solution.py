@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import random
+from book import Book
 class Solution:
     def __init__(self):
         #List ordered by signup time
@@ -38,6 +39,38 @@ class Solution:
             libraries_ids = np.delete(libraries_ids,np.where(libraries_ids == library_id))
     def evaluate(self,manager):
         return self.currScore
+    def checkSolution(self,manager):
+        #check if the solution is valid
+        #check if the libraries selected are in the list of libraries
+        for library in self.LibrariesSelected:
+            if library not in manager.libraries:
+                print("Library not in the list of libraries")
+                return False
+        #check if the books selected are in the list of books
+        for library in self.BooksSelectedByLibrary.keys():
+            for book in self.BooksSelectedByLibrary[library][0]:
+                try:
+                    manager.books[book]
+                except:
+                    print("Book not in the list of books")
+                    return False
+        #check if the days left are correct
+        for library in self.BooksSelectedByLibrary:
+            if self.BooksSelectedByLibrary[library][1] < 0:
+                print("Days left is negative")
+                return False
+        #check if the books selected are in the list of books of the library
+        for library in self.BooksSelectedByLibrary:
+            for book in self.BooksSelectedByLibrary[library][0]:
+                found = False
+                for i in manager.libraries[library].books:
+                    if i.book_id == book:
+                        found = True
+                        break
+                if not found:
+                    print("Book not in the list of books of the library")
+                    return False
+        return True
     def mutation(self,manager):
         r = random.randint(0,2)
         if r == 0:
@@ -93,7 +126,21 @@ class Solution:
                 library_tmp = manager.libraries[library_tmp_id] 
                 daysLeft -= library_tmp.signTime
                 (books,old) = self.BooksSelectedByLibrary[library_tmp_id]
-                self.BooksSelectedByLibrary[library_tmp_id] = (books,daysLeft)
+                #if the days left are different from the previous days left we need to recalculate the selected books
+                if old != daysLeft:
+                    new_books = []
+                    n_books = daysLeft*library_tmp.canShipBooksPerDay
+                    for book in library_tmp.books:
+                        if n_books == 0:
+                            break
+                        n_books -= 1
+                        if book.book_id not in self.UsedBooks:
+                            new_books.append(book.book_id)
+                            self.UsedBooks.add(book.book_id)
+                            currvalue += book.rating
+                    self.BooksSelectedByLibrary[library_tmp_id] = (new_books,daysLeft)
+                else:
+                    self.BooksSelectedByLibrary[library_tmp_id] = (books,daysLeft)
         #remove the books from the list of books
         self.currScore = currvalue
     def mutation_swap_exact(self,manager):
