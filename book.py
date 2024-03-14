@@ -11,6 +11,8 @@ class Book:
         return self.book_id == other.book_id
     def __lt__(self, other):
         return self.rating > other.rating
+    def __str__(self) -> str:
+        return "id:" + str(self.book_id) + " rating:" + str(self.rating)
     
 if __name__ == "__main__":
     books = SortedSet()

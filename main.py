@@ -83,7 +83,7 @@ class DataManager:
         solution.generate(self)
         # Best solution after 'num_iterations' iterations without improvement
         best_solution = copy.deepcopy(solution) 
-
+        first_score = best_solution.currScore
         best_score = best_solution.currScore
         
         print(f"Init Solution:  {best_score}, score: {best_score}")
@@ -97,14 +97,24 @@ class DataManager:
                 best_solution = neighbor_solution
                 best_score = neighbor_score
                 if log:
-                    (print(f"Solution:       {best_solution}, score: {best_score}"))       
-        print(f"Final Solution: {best_score}, score: {best_score}")
+                    (print(f"Solution:       {iteration}, score: {best_score}"))       
+        print(f"Final Solution: {best_score}, firstscore: {first_score}")
         return best_solution
 
 if __name__ == "__main__":
-    manager =DataManager("b_read_on.txt")
-    newSolution = manager.hill_climbing(100, True)
-    print(newSolution.BooksSelectedByLibrary.keys())
-    print(newSolution)
+    manager =DataManager("e_so_many_books.txt")
+    manager.hill_climbing(1200, True)
+    #print(manager.signTimeToLibraries[16])
+    #print(manager.libraries[5].books.sum())
+    #print(manager.libraries[94].books.sum())
+    #s = Solution()
+    #s.generate(manager)
+    #print(s.LibrariesSelected)
+    #s.mutation(manager)
+    #print(s.LibrariesSelected)
+
+    #newSolution = manager.hill_climbing(100, True)
+    #print(newSolution.BooksSelectedByLibrary.keys())
+    #print(newSolution)
     #manager.print_libraries()
             

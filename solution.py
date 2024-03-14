@@ -38,8 +38,65 @@ class Solution:
             libraries_ids = np.delete(libraries_ids,np.where(libraries_ids == library_id))
     def evaluate(self,manager):
         return self.currScore
-    
     def mutation(self,manager):
+        r = random.randint(0,2)
+        if r == 0:
+            self.mutation_swap_exact(manager)
+        else:
+            self.mutation_swap_order(manager)
+    def mutation_swap_order(self,manager):
+        #select a random library
+        found_match = False
+        mutations = 0
+        #find libraries with the same signTime
+        #optimizar esta parte no futuro-----------------------------------------------------
+        #---------------------------------------------------------------------------------
+        #----------------------------------------------------------------------------------
+        library_index_1 = random.randint(len(self.LibrariesSelected))
+        library_id_1 = self.LibrariesSelected[library_index_1]
+        #libraries with the same signTime as the old one
+        while not found_match:
+            library_index_2= random.choice(len(self.LibrariesSelected))
+            if(library_index_1 != library_index_2):
+                library_id_2 = self.LibrariesSelected[library_index_2]
+                found_match = True
+        daysLeft = manager.nDays
+        #remove books from used books
+        currvalue = self.currScore
+        for i in self.BooksSelectedByLibrary[library_id_1][0]:
+            self.UsedBooks.remove(i)
+            currvalue -= manager.books[i]
+        for i in self.BooksSelectedByLibrary[library_id_2][0]:
+            self.UsedBooks.remove(i)
+            currvalue -= manager.books[i]
+        for i in np.arange(len(self.LibrariesSelected)):
+            if i == library_index_1 or i == library_index_2:
+                if(library_index_1 == i):
+                    new_library_id = library_id_2
+                else:
+                    new_library_id = library_id_1
+                new_books = []
+                new_library = manager.libraries[new_library_id]
+                daysLeft -= new_library.signTime
+                n_books = daysLeft*new_library.canShipBooksPerDay
+                for book in new_library.books:
+                    if n_books == 0:
+                        break
+                    n_books -= 1
+                    if book.book_id not in self.UsedBooks:
+                        new_books.append(book.book_id)
+                        self.UsedBooks.add(book.book_id)
+                        currvalue += book.rating
+                self.BooksSelectedByLibrary[new_library_id] = (new_books,daysLeft)
+            else:
+                library_tmp_id = self.LibrariesSelected[i]
+                library_tmp = manager.libraries[library_tmp_id] 
+                daysLeft -= library_tmp.signTime
+                (books,old) = self.BooksSelectedByLibrary[library_tmp_id]
+                self.BooksSelectedByLibrary[library_tmp_id] = (books,daysLeft)
+        #remove the books from the list of books
+        self.currScore = currvalue
+    def mutation_swap_exact(self,manager):
         #select a random library
         found_match = False
         mutations = 0
@@ -65,7 +122,6 @@ class Solution:
             return
         #remove the library from the list of libraries
         self.LibrariesSelected[library_index] = library_id
-
         (usedBooksLibrary,daysLeft) = self.BooksSelectedByLibrary[old_library_id]
         #remove the books from the list of books
         old_books_score = 0
@@ -78,10 +134,10 @@ class Solution:
         for book in manager.libraries[library_id].books:
             if remainingBooks == 0:
                 break
-            if book not in self.UsedBooks:
+            if book.book_id not in self.UsedBooks:
                 new_book_rating+=book.rating
-                self.UsedBooks.add(book)
-                newBooks.append(book)
+                self.UsedBooks.add(book.book_id)
+                newBooks.append(book.book_id)
                 remainingBooks -= 1
         #update currScore
         self.currScore += new_book_rating-old_books_score
