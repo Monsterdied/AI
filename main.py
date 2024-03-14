@@ -104,15 +104,15 @@ class DataManager:
 
 if __name__ == "__main__":
     manager =DataManager("e_so_many_books.txt")
-    manager.hill_climbing(100, True)
+    #manager.hill_climbing(100, True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
-    #s = Solution()
-    #s.generate(manager)
-    #print(s.LibrariesSelected)
-    #s.mutation(manager)
-    #print(s.LibrariesSelected)
+    s = Solution()
+    s.generate(manager)
+    print(s.LibrariesSelected)
+    s.mutation(manager)
+    print(s.LibrariesSelected)
 
     #newSolution = manager.hill_climbing(100, True)
     #print(newSolution.BooksSelectedByLibrary.keys())
