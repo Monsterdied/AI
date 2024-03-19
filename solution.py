@@ -10,17 +10,15 @@ class Solution:
         self.UsedBooks = set()
         self.currScore = 0
 
-    def generate(self,manager):
-        #select 
+    def FillWithRandomLibraries(self,manager,DaysLeft):
         libraries_ids = np.arange(len(manager.libraries))
-        NumberTotalOfdays = manager.nDays
         CurrentDaysUsed = 0
-        while(len(self.UsedBooks) < len(manager.books) and len(libraries_ids)>0 and NumberTotalOfdays > CurrentDaysUsed):
+        while(len(self.UsedBooks) < len(manager.books) and len(libraries_ids)>0 and DaysLeft>0):
             library_id = random.choice(libraries_ids)
             library = manager.libraries[library_id]
-            if library.signTime + CurrentDaysUsed <= NumberTotalOfdays:
+            if library.signTime + CurrentDaysUsed <= DaysLeft and library_id not in self.LibrariesSelected:
                 CurrentDaysUsed += library.signTime
-                daysLeft = NumberTotalOfdays - CurrentDaysUsed
+                daysLeft = DaysLeft - CurrentDaysUsed
                 self.LibrariesSelected.append(library_id)
                 remainingBooks =  daysLeft* library.canShipBooksPerDay
                 newBooks = []
@@ -37,8 +35,13 @@ class Solution:
                 self.currScore += new_books_rating
             # remove from the possible to add to the list of libraries
             libraries_ids = np.delete(libraries_ids,np.where(libraries_ids == library_id))
+    def generate(self,manager):
+        #select 
+        self.FillWithRandomLibraries(manager,manager.nDays)
+
     def evaluate(self,manager):
         return self.currScore
+    
     def checkSolution(self,manager):
         #check if the solution is valid
         #check if the libraries selected are in the list of libraries
@@ -70,13 +73,45 @@ class Solution:
                 if not found:
                     print("Book not in the list of books of the library")
                     return False
+        # check score
+        value = 0
+        for library in self.BooksSelectedByLibrary:
+            for book in self.BooksSelectedByLibrary[library][0]:
+                value += manager.books[book]
+        if value != self.currScore:
+            print("CurrScore is different from the sum of the books")
+            return False
+        books = set()
+        # check if the books are repeated
+        for library in self.BooksSelectedByLibrary:
+            for book in self.BooksSelectedByLibrary[library][0]:
+                if book in books:
+                    print("Book is repeated")
+                    return False
+                books.add(book)
+        # check if the libraries are repeated
+        libraries = set()
+        for library in self.BooksSelectedByLibrary:
+            if library in libraries:
+                print("Library is repeated")
+                return False
+            libraries.add(library)
+        # check if libraries and daysLeft are the same
+        days_tmp = 0
+        for library in self.BooksSelectedByLibrary:
+            days_tmp += manager.libraries[library].signTime
+        if days_tmp > manager.nDays:
+            print("Days left is incorrect")
+            return False
         return True
+    
     def mutation(self,manager):
-        #r = random.randint(0,2)
-        #if r == 0:
-        self.mutation_swap_exact(manager)
-        #else:
-        #    self.mutation_swap_order(manager)
+        r = random.randint(0,2)
+        if r == 0:
+            self.mutation_swap_exact(manager)
+        else:
+            self.mutation_swap_order(manager)
+        
     def mutation_swap_order(self,manager):
         #select a random library
         found_match = False
@@ -155,41 +190,39 @@ class Solution:
             library_index = random.randint(len(self.LibrariesSelected))
             old_library_id = self.LibrariesSelected[library_index]
             old_library = manager.libraries[old_library_id]
-            self.LibrariesSelected.remove(old_library_id)
             #libraries with the same signTime as the old one
             library_id = -1
             possible_signdays = np.arange(1,old_library.signTime+1)
             while not found_match and len(possible_signdays)>0:
                 curr_signTime = random.choice(possible_signdays)
+                possible_signdays = np.delete(possible_signdays,np.where(possible_signdays == curr_signTime))
                 PossibleLibraries = manager.signTimeToLibraries[curr_signTime]
                 curr_signTime -= 1
                 while len(PossibleLibraries) > 1 and not found_match:
-                    library_id= random.choice(PossibleLibraries)
-                    if library_id not in self.LibrariesSelected:
+                    library_id_tmp= random.choice(PossibleLibraries)
+                    if library_id_tmp not in self.LibrariesSelected:
+                        library_id = library_id_tmp
                         found_match = True
-                    PossibleLibraries.remove(library_id)
+                    PossibleLibraries.remove(library_id_tmp)
             mutations += 1
         if library_id == -1:
-            #print("No possible library to swap")
+            print("No possible library to swap")
             return
         #remove the library from the list of libraries
         daysLeft = manager.nDays
         reCalculate = False
         for i in range(len(self.LibrariesSelected)):
             library_id_tmp = self.LibrariesSelected[i]
+            (old_books,old) = self.BooksSelectedByLibrary[library_id_tmp]
             if i == library_index:
-                (old_books,old) = self.BooksSelectedByLibrary[library_id_tmp]
                 reCalculate = True
-                for j in old_books:
-                    self.UsedBooks.remove(j)
-                    self.currScore -= manager.books[j]
                 daysLeft -= manager.libraries[library_id].signTime
                 self.LibrariesSelected[i] = library_id
-                self.BooksSelectedByLibrary[library_index] = ([],0)
+                self.BooksSelectedByLibrary.pop(library_id_tmp)
+                library_id_tmp = library_id
             else:
                 daysLeft -= manager.libraries[library_id_tmp].signTime
             if reCalculate:
-                (old_books,old) = self.BooksSelectedByLibrary[library_id_tmp]
                 new_books = []
                 n_books = daysLeft*manager.libraries[library_id_tmp].canShipBooksPerDay
                 for j in old_books:
@@ -205,6 +238,7 @@ class Solution:
                         self.currScore += book.rating
                 
                 self.BooksSelectedByLibrary[library_id_tmp] = (new_books,daysLeft)
+        self.FillWithRandomLibraries(manager,daysLeft)
 
     def __str__(self) -> str:
         output = "Libraries Selected: " + str(self.LibrariesSelected) + "\n"

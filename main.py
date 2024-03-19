@@ -3,6 +3,7 @@ from library import Library
 from book import Book
 from solution import Solution
 from sortedcontainers import SortedList
+import time
 import copy
 class DataManager:    
 
@@ -87,8 +88,14 @@ class DataManager:
         best_score = best_solution.currScore
         
         print(f"Init Solution:  {best_score}, score: {best_score}")
-        
+        time1 = time.time()
         while iteration < num_iterations:
+            if iteration % 1000 == 0:
+                time2 = time.time()
+                timeExpected = (time2 - time1) * (num_iterations - iteration) / 1000
+                print("Iteration: ", timeExpected, " seconds left")
+                print("time:",timeExpected%60,"minutes")
+                time1 = time2
             iteration += 1
             neighbor_solution = copy.deepcopy(best_solution)
             neighbor_solution.mutation(self)
@@ -99,20 +106,22 @@ class DataManager:
                 if log:
                     (print(f"Solution:       {iteration}, score: {best_score}"))       
         print(f"Final Solution: {best_score}, firstscore: {first_score}")
-        print(solution.checkSolution(self))
+        if solution.checkSolution(self):
+            print("Solution is valid")
+        else:
+            print("Solution is invalid")
         return best_solution
 
 if __name__ == "__main__":
-    manager =DataManager("e_so_many_books.txt")
-    #manager.hill_climbing(100, True)
+    manager =DataManager("a_example.txt")
+    manager.hill_climbing(10000, True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
-    s = Solution()
-    s.generate(manager)
-    print(s.LibrariesSelected)
-    s.mutation(manager)
-    print(s.LibrariesSelected)
+    #s = Solution()
+    #s.generate(manager)
+    #s.mutation(manager)
+    #s.checkSolution(manager)
 
     #newSolution = manager.hill_climbing(100, True)
     #print(newSolution.BooksSelectedByLibrary.keys())
