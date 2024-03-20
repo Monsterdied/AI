@@ -91,13 +91,13 @@ class DataManager:
         time1 = time.time()
         time_start = time1
         while iteration < num_iterations:
-            if iteration % 1000 == 0:
+            """if iteration % 1000 == 0:
                 time2 = time.time()
                 timeExpected = (time2 - time1) * (num_iterations - iteration) / 1000
                 print("Iteration: ", timeExpected, " seconds left")
                 print("time:",timeExpected/60,"minutes")
                 (print(f"Solution:       {iteration}, score: {best_score}"))   
-                time1 = time2
+                time1 = time2"""
             iteration += 1
             neighbor_solution = copy.deepcopy(best_solution)
             neighbor_solution.mutation(self)
@@ -112,12 +112,25 @@ class DataManager:
             print("Solution is valid")
         else:
             print("Solution is invalid")
+            return False
         print("time elapsed:",(time.time()-time_start),"seconds")
         return best_solution
+def test():
+    tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+    f = open("./tests/result.txt", "a")
+    f.write("Hill Climbing\n")
+    for test in tests:
+        print(test)
+        result = 0
+        n = 3
+        for i in range(n):
+            manager =DataManager(test)
+            result += manager.hill_climbing(2000, False).currScore/n
+        f.write(test + " " + str(result) + "\n")
+    f.close()
 
 if __name__ == "__main__":
-    manager =DataManager("f_libraries_of_the_world.txt")
-    manager.hill_climbing(1000, True)
+    test()
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
