@@ -89,6 +89,7 @@ class DataManager:
         
         print(f"Init Solution:  {best_score}, score: {best_score}")
         time1 = time.time()
+        time_start = time1
         while iteration < num_iterations:
             if iteration % 1000 == 0:
                 time2 = time.time()
@@ -105,17 +106,18 @@ class DataManager:
                 best_solution = neighbor_solution
                 best_score = neighbor_score
                 if log:
-                    (print(f"Solution:       {iteration}, score: {best_score}"))   
+                    (print(f"Solution:       {iteration}, score: {best_score}"))
         print(f"Final Solution: {best_score}, firstscore: {first_score}")
         if solution.checkSolution(self):
             print("Solution is valid")
         else:
             print("Solution is invalid")
+        print("time elapsed:",(time.time()-time_start),"seconds")
         return best_solution
 
 if __name__ == "__main__":
     manager =DataManager("b_read_on.txt")
-    manager.hill_climbing(100000, False)
+    manager.hill_climbing(10, True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
