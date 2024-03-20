@@ -114,12 +114,20 @@ class Solution:
             if n_books < len(self.BooksSelectedByLibrary[library][0]):
                 print("Number of books doesnt match the days left and the books per day of the library")
                 return False
+        for library in self.BooksSelectedByLibrary:
+            for book in self.BooksSelectedByLibrary[library][0]:
+                self.UsedBooks.remove(book)
+        if len(self.UsedBooks)> 0:
+            print("Number of books doesnt match the days left and the books per day of the library")
+            return False
         return True
     
     def mutation(self,manager):
-        r = random.randint(0,2)
+        r = random.randint(0,3)
         if r == 0:
-            self.mutation_swap(manager)
+            self.mutation_swap_exact_or_less(manager)
+        elif r == 1:
+            self.mutation_swap_with_greater_size(manager)
         else:
             self.mutation_swap_order(manager)
         
@@ -189,7 +197,7 @@ class Solution:
                     self.BooksSelectedByLibrary[library_tmp_id] = (new_books,daysLeft)
         #remove the books from the list of books
         self.currScore = currvalue
-    def mutation_swap(self,manager):
+    def mutation_swap_with_greater_size(self,manager):
         #select a random library
         found_match = False
         mutations = 0
@@ -198,6 +206,7 @@ class Solution:
         #---------------------------------------------------------------------------------
         #----------------------------------------------------------------------------------
         while not found_match and mutations < 1000:
+            mutations += 1
             new_library_id = random.randint(manager.nLibraries)
             new_library = manager.libraries[new_library_id]
             new_library_signTime = new_library.signTime
@@ -217,24 +226,93 @@ class Solution:
                 counter += 1
                 if curr_signTime_old_library > new_library_signTime:
                     break
-            random_start = random.randint(len(self.LibrariesSelected)-counter)
+            if counter == len(self.LibrariesSelected):
+                random_start = 0
+            else:
+                random_start = random.randint(len(self.LibrariesSelected)-counter)
             library_index = random_start
             old_time = manager.libraries[self.LibrariesSelected[random_start]].signTime
-            if old_time < new_library_signTime:
-                for i in range(random_start+1,len(self.LibrariesSelected)):
-                    library_id_tmp = self.LibrariesSelected[i]# apagar library
-                    old_library = manager.libraries[library_id_tmp]
-                    curr_signTime_old_library += old_library.signTime
-                    for book in self.BooksSelectedByLibrary[library_id_tmp][0]:
-                        self.UsedBooks.remove(book)
-                        self.currScore -= manager.books[book]
-                    self.BooksSelectedByLibrary.pop(library_id_tmp)
-                    if curr_signTime_old_library > new_library_signTime:
-                        library_id = library_id_tmp
-                        break
+            if old_time >= new_library_signTime:
+                continue
+            for i in range(random_start+1,len(self.LibrariesSelected)):
+                library_id_tmp = self.LibrariesSelected[random_start+1]# apagar library
+                old_library = manager.libraries[library_id_tmp]
+                curr_signTime_old_library += old_library.signTime
+                for book in self.BooksSelectedByLibrary[library_id_tmp][0]:
+                    self.UsedBooks.remove(book)
+                    self.currScore -= manager.books[book]
+                self.BooksSelectedByLibrary.pop(library_id_tmp)
+                self.LibrariesSelected.remove(library_id_tmp)
+                if curr_signTime_old_library > new_library_signTime:
+                    library_id = library_id_tmp
+                    break
 
             for i in np.arange(len(self.LibrariesSelected)):
                 possible_signdays = np.arange(1,old_library.signTime+1)
+            while not found_match and len(possible_signdays)>0:
+                curr_signTime = random.choice(possible_signdays)
+                possible_signdays = np.delete(possible_signdays,np.where(possible_signdays == curr_signTime))
+                if curr_signTime in manager.signTimeToLibraries.keys():
+                    PossibleLibraries = manager.signTimeToLibraries[curr_signTime]
+                else:
+                    PossibleLibraries = []
+                curr_signTime -= 1
+                while len(PossibleLibraries) > 1 and not found_match:
+                    library_id_tmp= random.choice(PossibleLibraries)
+                    if library_id_tmp not in self.LibrariesSelected:
+                        library_id = library_id_tmp
+                        found_match = True
+                    PossibleLibraries.remove(library_id_tmp)
+        if library_id == -1:
+            #print("No possible library to swap")
+            return
+        #remove the library from the list of libraries
+        daysLeft = manager.nDays
+        reCalculate = False
+        for i in range(len(self.LibrariesSelected)):
+            library_id_tmp = self.LibrariesSelected[i]
+            (old_books,old) = self.BooksSelectedByLibrary[library_id_tmp]
+            if i == library_index:
+                reCalculate = True
+                daysLeft -= manager.libraries[library_id].signTime
+                self.LibrariesSelected[i] = library_id
+                self.BooksSelectedByLibrary.pop(library_id_tmp)
+                library_id_tmp = library_id
+            else:
+                daysLeft -= manager.libraries[library_id_tmp].signTime
+            if reCalculate:
+                new_books = []
+                n_books = daysLeft*manager.libraries[library_id_tmp].canShipBooksPerDay
+                for j in old_books:
+                    self.UsedBooks.remove(j)
+                    self.currScore -= manager.books[j]
+                for book in manager.libraries[library_id_tmp].books:
+                    if n_books == 0:
+                        break
+                    n_books -= 1
+                    if book.book_id not in self.UsedBooks:
+                        new_books.append(book.book_id)
+                        self.UsedBooks.add(book.book_id)
+                        self.currScore += book.rating
+                
+                self.BooksSelectedByLibrary[library_id_tmp] = (new_books,daysLeft)
+        self.FillWithRandomLibraries(manager,daysLeft)
+
+    def mutation_swap_exact_or_less(self,manager):
+        #select a random library
+        found_match = False
+        mutations = 0
+        #find libraries with the same signTime
+        #optimizar esta parte no futuro-----------------------------------------------------
+        #---------------------------------------------------------------------------------
+        #----------------------------------------------------------------------------------
+        while not found_match and mutations < 1000:
+            library_index = random.randint(len(self.LibrariesSelected))
+            old_library_id = self.LibrariesSelected[library_index]
+            old_library = manager.libraries[old_library_id]
+            #libraries with the same signTime as the old one
+            library_id = -1
+            possible_signdays = np.arange(1,old_library.signTime+1)
             while not found_match and len(possible_signdays)>0:
                 curr_signTime = random.choice(possible_signdays)
                 possible_signdays = np.delete(possible_signdays,np.where(possible_signdays == curr_signTime))

@@ -116,8 +116,8 @@ class DataManager:
         return best_solution
 
 if __name__ == "__main__":
-    manager =DataManager("b_read_on.txt")
-    manager.hill_climbing(10, True)
+    manager =DataManager("f_libraries_of_the_world.txt")
+    manager.hill_climbing(1000, True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
