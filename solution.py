@@ -103,6 +103,17 @@ class Solution:
         if days_tmp > manager.nDays:
             print("Days left is incorrect")
             return False
+        new_days = manager.nDays
+        for library in self.BooksSelectedByLibrary:
+            days_left = self.BooksSelectedByLibrary[library][1]
+            new_days -= manager.libraries[library].signTime
+            if days_left != new_days:
+                print("Days left is incorrect")
+                return False
+            n_books = days_left*manager.libraries[library].canShipBooksPerDay
+            if n_books < len(self.BooksSelectedByLibrary[library][0]):
+                print("Number of books doesnt match the days left and the books per day of the library")
+                return False
         return True
     
     def mutation(self,manager):
@@ -196,7 +207,10 @@ class Solution:
             while not found_match and len(possible_signdays)>0:
                 curr_signTime = random.choice(possible_signdays)
                 possible_signdays = np.delete(possible_signdays,np.where(possible_signdays == curr_signTime))
-                PossibleLibraries = manager.signTimeToLibraries[curr_signTime]
+                if curr_signTime in manager.signTimeToLibraries.keys():
+                    PossibleLibraries = manager.signTimeToLibraries[curr_signTime]
+                else:
+                    PossibleLibraries = []
                 curr_signTime -= 1
                 while len(PossibleLibraries) > 1 and not found_match:
                     library_id_tmp= random.choice(PossibleLibraries)
@@ -206,7 +220,7 @@ class Solution:
                     PossibleLibraries.remove(library_id_tmp)
             mutations += 1
         if library_id == -1:
-            print("No possible library to swap")
+            #print("No possible library to swap")
             return
         #remove the library from the list of libraries
         daysLeft = manager.nDays
