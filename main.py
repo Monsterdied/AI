@@ -21,7 +21,7 @@ class DataManager:
         line = file1.readline()
         libraryId = 0
         while line != "\n":
-            line2 = file1.readline()
+            line2 = file1.readline() #comment
             self.read_library_data(libraryId,line,line2)
             libraryId += 1
             line = file1.readline()
