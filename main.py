@@ -178,3 +178,17 @@ if __name__ == "__main__":
     manager.tabu_search(50, 50, 5)
     manager.hill_climbing(50, True)
             
+
+
+"""
+To do:
+Aspiration Criteria: As discussed earlier, you might want to consider adding an aspiration criteria, which would allow a move even if it is tabu, under certain conditions (for example, if the move leads to a solution better than any seen so far).
+
+Termination Criteria: Besides the maximum number of iterations, you might want to consider other termination criteria, such as a time limit or a condition that checks if the solution has not improved for a certain number of iterations.
+
+Tabu Tenure: Instead of always removing the oldest solution from the tabu list when it exceeds its maximum size, you could consider implementing a more sophisticated tabu tenure strategy. For example, you could vary the tenure of a solution based on its quality or the frequency of its components in the search history.
+
+Logging and Result Reporting: You might want to add more logging and result reporting to help you understand the progress and performance of the algorithm. For example, you could log the best solution found in each iteration, the size of the tabu list, the number of neighbors generated, etc. At the end of the search, you could report the best solution found, the total number of iterations, the total running time, etc.
+
+Code Organization and Modularity: To make the code easier to read and maintain, you might want to consider breaking down the tabu search method into smaller methods, each responsible for a specific part of the algorithm (e.g., generating neighbors, selecting the best neighbor, updating the tabu list, etc.).
+"""
