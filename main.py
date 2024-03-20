@@ -112,20 +112,69 @@ class DataManager:
         else:
             print("Solution is invalid")
         return best_solution
+    # ------------------------------------Tabu Search-----------------------------------
+    def tabu_search(self,max_interations,tabu_list_size,neighborhood_size):
+        iteration = 0
+        solution = Solution()
+        solution.generate(self)
+        best_solution = copy.deepcopy(solution)
+        best_score = best_solution.currScore
+        tabu_list = []
+        print(f"Solution:", best_score)
+        time1 = time.time()
+        while iteration < max_interations:
+
+            if iteration % (max_interations-1) == 0:
+                time2 = time.time()
+                print (f"Time: {time2 - time1}" )
+                (print(f"Solution:       {iteration}, score: {best_score}"))   
+                time1 = time2
+
+            iteration += 1
+
+            neighbors_list = []
+            for i in range(neighborhood_size):
+                neighbor_solution = copy.deepcopy(best_solution)
+                neighbor_solution.mutation(self)
+                neighbors_list.append(neighbor_solution)
+
+            # Best neighbor
+            best_neighbor = None
+            best_neighbor_score = -1
+            for neighbor in neighbors_list:
+                if neighbor not in tabu_list:
+                    neighbor_score = neighbor.currScore
+                    if neighbor_score > best_neighbor_score:
+                        best_neighbor = neighbor
+                        best_neighbor_score = neighbor_score
+
+            # If no neighbor is valid
+            if best_neighbor is None:
+                neighbors_list = []
+                for i in range(neighborhood_size):
+                    neighbor_solution = copy.deepcopy(best_solution)
+                    neighbor_solution.mutation(self)
+                    neighbors_list.append(neighbor_solution)
+
+                best_neighbor = max(neighbors_list, key=lambda x: x.currScore)
+                best_neighbor_score = best_neighbor.currScore
+
+            # Update best solution
+            if best_neighbor_score > best_score:
+                best_solution = best_neighbor
+                best_score = best_neighbor_score
+                tabu_list.append(best_neighbor)
+                if len(tabu_list) > tabu_list_size:
+                    tabu_list.pop(0)
+        if solution.checkSolution(self):
+            print("Solution is valid")
+            
+
+
+
 
 if __name__ == "__main__":
     manager =DataManager("b_read_on.txt")
-    manager.hill_climbing(100000, False)
-    #print(manager.signTimeToLibraries[16])
-    #print(manager.libraries[5].books.sum())
-    #print(manager.libraries[94].books.sum())
-    #s = Solution()
-    #s.generate(manager)
-    #s.mutation(manager)
-    #s.checkSolution(manager)
-
-    #newSolution = manager.hill_climbing(100, True)
-    #print(newSolution.BooksSelectedByLibrary.keys())
-    #print(newSolution)
-    #manager.print_libraries()
+    manager.tabu_search(50, 50, 5)
+    manager.hill_climbing(50, True)
             
