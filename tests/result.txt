@@ -36,11 +36,4 @@ d_tough_choices.txt 4378595
 e_so_many_books.txt 755836532
 f_libraries_of_the_world.txt 1339153314
 -------------------- mutação sem o sawp grande
-Hill Climbing
-Hill Climbing
-a_example.txt 63
-b_read_on.txt 4305068300
-c_incunabula.txt 3338791119
-d_tough_choices.txt 13133835
-e_so_many_books.txt 2055567525
-f_libraries_of_the_world.txt 3986211330
+

@@ -101,15 +101,19 @@ class Solution:
         for library in self.BooksSelectedByLibrary:
             days_tmp += manager.libraries[library].signTime
         if days_tmp > manager.nDays:
+            print("number total of days is less than the sum of the days of the libraries")
             print("Days left is incorrect")
             return False
         new_days = manager.nDays
-        for library in self.BooksSelectedByLibrary:
+        for library in self.LibrariesSelected:
             days_left = self.BooksSelectedByLibrary[library][1]
             new_days -= manager.libraries[library].signTime
             if days_left != new_days:
+                print(library)
+                print("it should have :",new_days,"instead it has :",days_left)
                 print("Days left is incorrect")
                 return False
+                
             n_books = days_left*manager.libraries[library].canShipBooksPerDay
             if n_books < len(self.BooksSelectedByLibrary[library][0]):
                 print("Number of books doesnt match the days left and the books per day of the library")
@@ -121,7 +125,40 @@ class Solution:
             print("Number of books doesnt match the days left and the books per day of the library")
             return False
         return True
-    
+    def singlepoint_crossover(self,manager,solution):
+        middle_days = manager.nDays//2
+        counter_day = 0
+        libraries1 = []
+        for library in self.LibrariesSelected:
+            counter_day += self.BooksSelectedByLibrary[library][1]
+            if counter_day > middle_days:
+                break
+            libraries1.append(library)
+        libraries2 = []
+        for library in solution.LibrariesSelected[::-1]:
+            if library not in libraries1:
+                libraries2.append(library)
+        libraries2 = libraries2[::-1]
+        self.LibrariesSelected = libraries1 + libraries2
+        self.BooksSelectedByLibrary = {}
+        self.UsedBooks = set()
+        self.currScore = 0
+        daysLeft = manager.nDays
+        for library in self.LibrariesSelected:
+            library_tmp = manager.libraries[library]
+            daysLeft -= library_tmp.signTime
+            new_books = []
+            n_books = daysLeft*library_tmp.canShipBooksPerDay
+            for book in library_tmp.books:
+                if n_books == 0:
+                    break
+                n_books -= 1
+                if book.book_id not in self.UsedBooks:
+                    new_books.append(book.book_id)
+                    self.UsedBooks.add(book.book_id)
+                    self.currScore += book.rating
+            self.BooksSelectedByLibrary[library] = (new_books,daysLeft)
+        
     def mutation(self,manager):
         r = random.randint(0,3)
         if r == 0:
@@ -141,6 +178,8 @@ class Solution:
         library_index_1 = random.randint(len(self.LibrariesSelected))
         library_id_1 = self.LibrariesSelected[library_index_1]
         #libraries with the same signTime as the old one
+        if len(self.LibrariesSelected) == 1:
+            return
         while not found_match:
             library_index_2= random.choice(len(self.LibrariesSelected))
             if(library_index_1 != library_index_2):
@@ -173,6 +212,7 @@ class Solution:
                         new_books.append(book.book_id)
                         self.UsedBooks.add(book.book_id)
                         currvalue += book.rating
+                self.LibrariesSelected[i] = new_library_id
                 self.BooksSelectedByLibrary[new_library_id] = (new_books,daysLeft)
             else:
                 library_tmp_id = self.LibrariesSelected[i]
@@ -186,6 +226,7 @@ class Solution:
                     #remove the old books from the used books because they can be used or not have time to be used
                     for i in old_books:
                         self.UsedBooks.remove(i)
+                        currvalue -= manager.books[i]
                     for book in library_tmp.books:
                         if n_books == 0:
                             break
@@ -329,7 +370,7 @@ class Solution:
                     PossibleLibraries.remove(library_id_tmp)
             mutations += 1
         if library_id == -1:
-            #print("No possible library to swap")
+            print("No possible library to swap")
             return
         #remove the library from the list of libraries
         daysLeft = manager.nDays

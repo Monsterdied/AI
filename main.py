@@ -108,7 +108,7 @@ class DataManager:
                 if log:
                     (print(f"Solution:       {iteration}, score: {best_score}"))
         print(f"Final Solution: {best_score}, firstscore: {first_score}")
-        if solution.checkSolution(self):
+        if best_solution.checkSolution(self):
             print("Solution is valid")
         else:
             print("Solution is invalid")
@@ -128,9 +128,33 @@ def test():
             result += manager.hill_climbing(2000, False).currScore/n
         f.write(test + " " + str(result) + "\n")
     f.close()
-
+def testCrossover(manager):
+    print("Test Crossover")
+    n = 70
+    initialSolution = Solution()
+    initialSolution.generate(manager)
+    for i in range(n):
+        print(i)
+        s = Solution()
+        s.generate(manager)
+        initialSolution.singlepoint_crossover(manager,s)
+        initialSolution.mutation(manager)
+    if not initialSolution.checkSolution(manager):
+        print("Solution is invalid")
+        return False
+    else:
+        print("Solution is valid")
+        return True
+def testAll():
+    tests = ["b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+    for i in tests:
+        print(i)
+        manager = DataManager(i)
+        if not testCrossover(manager):
+            print("Error in test")
+            return False
 if __name__ == "__main__":
-    test()
+    testAll()
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
