@@ -58,7 +58,7 @@ class Solution:
                     print("Book not in the list of books")
                     return False
         #check if the days left are correct
-        for library in self.BooksSelectedByLibrary:
+        for library in self.LibrariesSelected:
             if self.BooksSelectedByLibrary[library][1] < 0:
                 print("Days left is negative")
                 return False

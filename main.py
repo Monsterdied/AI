@@ -1,14 +1,16 @@
 
 from library import Library
 from book import Book
-from solution import Solution
+#from solution import Solution
+from solutionRandom import Solution
 from sortedcontainers import SortedList
 import time
 import copy
+import numpy as np
 class DataManager:    
 
     # ------------------------------------read data -----------------------------------
-    def __init__(self,filename):
+    def __init__(self,filename,BooksSorted = True):
         self.filename = "./data/" + filename
         self.libraries = {}
         self.books = []
@@ -22,7 +24,7 @@ class DataManager:
         libraryId = 0
         while line != "\n":
             line2 = file1.readline() #comment
-            self.read_library_data(libraryId,line,line2)
+            self.read_library_data(libraryId,line,line2,BooksSorted)
             libraryId += 1
             line = file1.readline()
         if libraryId != self.nLibraries:
@@ -46,7 +48,7 @@ class DataManager:
         if i != self.nBooks:
             print("Error in reading book rating\nNumber of books read is not equal to the number of books mentioned in the file rating")
 
-    def read_library_data(self,libraryId,firstLine,secondLine):
+    def read_library_data(self,libraryId,firstLine,secondLine,BooksSorted):
         data = firstLine.split(' ')
         nbooks = int(data[0])
         signTime = int(data[1])
@@ -56,15 +58,24 @@ class DataManager:
             self.signTimeToLibraries[signTime] = [libraryId]
         canShipBooksPerDay = int(data[2])
         bookIds = secondLine.split(' ')
-        books = self.books
-        LibraryBooks = SortedList()
-        i = 0
-        for bookid in bookIds:# pode se alterar o ordered set para lista la a frente é so necessario ordenar mas para ja vamos tentar assim
-            LibraryBooks.add(Book(self.books[int(bookid)],int(bookid)))
-            i += 1
-        self.libraries[libraryId] = Library(nbooks,signTime,canShipBooksPerDay,LibraryBooks)
-        if i != nbooks:
-            print("Number of books from library read is not equal to the number of books mentioned in the file rating")
+        if BooksSorted:
+            LibraryBooks = SortedList()
+            i = 0
+            for bookid in bookIds:# pode se alterar o ordered set para lista la a frente é so necessario ordenar mas para ja vamos tentar assim
+                LibraryBooks.add(Book(self.books[int(bookid)],int(bookid)))
+                i += 1
+            self.libraries[libraryId] = Library(nbooks,signTime,canShipBooksPerDay,LibraryBooks)
+            if i != nbooks:
+                print("Number of books from library read is not equal to the number of books mentioned in the file rating")
+        else:
+            LibraryBooks = np.array([])
+            i = 0
+            for bookid in bookIds:# pode se alterar o ordered set para lista la a frente é so necessario ordenar mas para ja vamos tentar assim
+                LibraryBooks = np.append(LibraryBooks,int(bookid))
+                i += 1
+            self.libraries[libraryId] = Library(nbooks,signTime,canShipBooksPerDay,LibraryBooks)
+            if i != nbooks:
+                print("Number of books from library read is not equal to the number of books mentioned in the file rating")
 
     # ------------------------------------Print data-----------------------------------
     def print_libraries(self):
@@ -154,7 +165,20 @@ def testAll():
             print("Error in test")
             return False
 if __name__ == "__main__":
-    testAll()
+    #testAll()
+    manager = DataManager("f_libraries_of_the_world.txt",False)
+    solution = Solution()
+    solution.generate(manager)
+    print(manager.libraries[0].books)
+    print(solution.LibrariesSelected)
+    for i in range(3):
+        print(i)
+        solution.mutation(manager)
+        print(solution.evaluate(manager))
+    if not solution.checkSolution(manager):
+        print("Solution is invalid")
+    else:
+        print("Solution is valid")
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())
