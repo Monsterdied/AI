@@ -68,7 +68,7 @@ class DataManager:
             if i != nbooks:
                 print("Number of books from library read is not equal to the number of books mentioned in the file rating")
         else:
-            LibraryBooks = np.array([])
+            LibraryBooks = np.array([],dtype=int)
             i = 0
             for bookid in bookIds:# pode se alterar o ordered set para lista la a frente é so necessario ordenar mas para ja vamos tentar assim
                 LibraryBooks = np.append(LibraryBooks,int(bookid))
@@ -95,8 +95,8 @@ class DataManager:
         solution.generate(self)
         # Best solution after 'num_iterations' iterations without improvement
         best_solution = copy.deepcopy(solution) 
-        first_score = best_solution.currScore
-        best_score = best_solution.currScore
+        first_score = best_solution.evaluate(self)
+        best_score = best_solution.evaluate(self)
         
         print(f"Init Solution:  {best_score}, score: {best_score}")
         time1 = time.time()
@@ -109,16 +109,19 @@ class DataManager:
                 print("time:",timeExpected/60,"minutes")
                 (print(f"Solution:       {iteration}, score: {best_score}"))   
                 time1 = time2"""
+            print(f"Solution:       {iteration}, score: {best_score}")
             iteration += 1
             neighbor_solution = copy.deepcopy(best_solution)
             neighbor_solution.mutation(self)
-            neighbor_score = neighbor_solution.currScore 
+            neighbor_score = neighbor_solution.evaluate(self)
             if neighbor_score > best_score:
                 best_solution = neighbor_solution
                 best_score = neighbor_score
                 if log:
                     (print(f"Solution:       {iteration}, score: {best_score}"))
-        print(f"Final Solution: {best_score}, firstscore: {first_score}")
+        #print(f"Final Solution: {best_score}, firstscore: {first_score}")
+        print(best_solution.BooksSelectedByLibrary)
+        print(best_solution.LibrariesSelected)
         if best_solution.checkSolution(self):
             print("Solution is valid")
         else:
@@ -126,18 +129,27 @@ class DataManager:
             return False
         print("time elapsed:",(time.time()-time_start),"seconds")
         return best_solution
-def test():
+def test(Sorted = True):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
-    f = open("./tests/result.txt", "a")
-    f.write("Hill Climbing\n")
+    f = open("./tests/result1.txt", "a")
+    f.write("Hill Climbing with random\n")
     for test in tests:
         print(test)
         result = 0
         n = 3
+        errors = 0
         for i in range(n):
-            manager =DataManager(test)
-            result += manager.hill_climbing(2000, False).currScore/n
+            time1 = time.time()
+            manager =DataManager(test,Sorted)
+            result1 =  manager.hill_climbing(2000, False)
+            if not result1:
+                f.write("Error in test\n")
+                errors += 1
+            else:
+                result += result1.evaluate(manager)/n
         f.write(test + " " + str(result) + "\n")
+        f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
+        print("errors: ",errors)
     f.close()
 def testCrossover(manager):
     print("Test Crossover")
@@ -166,19 +178,14 @@ def testAll():
             return False
 if __name__ == "__main__":
     #testAll()
-    manager = DataManager("f_libraries_of_the_world.txt",False)
-    solution = Solution()
-    solution.generate(manager)
-    print(manager.libraries[0].books)
-    print(solution.LibrariesSelected)
-    for i in range(3):
-        print(i)
-        solution.mutation(manager)
-        print(solution.evaluate(manager))
-    if not solution.checkSolution(manager):
-        print("Solution is invalid")
-    else:
-        print("Solution is valid")
+    #test(False)
+    
+    #print(manager.libraries[0].books)
+    manager= DataManager("a_example.txt",False)
+    time1 = time.time()
+    manager.hill_climbing(1, True)
+
+    print("time elapsed:",(time.time()-time1),"seconds")
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())

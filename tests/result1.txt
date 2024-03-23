@@ -1,0 +1,55 @@
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Error in test
+a_example.txt 14.0
+time elapsed: 0.0843653678894043 seconds
+Error in test
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.08488957087198894 seconds
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 9.577606360117594 seconds
+c_incunabula.txt 1002190.6666666666
+time elapsed: 1.6327145894368489 seconds
+Error in test
+Error in test
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.09001525243123372 seconds
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 10.76266916592916 seconds
+c_incunabula.txt 898221.3333333335
+time elapsed: 1.6344532171885173 seconds
+Error in test
+Error in test

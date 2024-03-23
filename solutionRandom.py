@@ -1,11 +1,10 @@
 import numpy as np
-import random as rd
 from numpy import random
 from book import Book
 class Solution:
     def __init__(self):
         #List ordered by signup time
-        self.LibrariesSelected = np.array([])
+        self.LibrariesSelected = np.array([],dtype=int)
         # {LibraryId: [BookId1, BookId2, ...], ...} where the books are the books selected by the library
         self.BooksSelectedByLibrary = {}
 
@@ -13,20 +12,26 @@ class Solution:
     def reshuffleBooksFromLibrary(self,library_id,manager,daysLeft):
         library = manager.libraries[library_id]
         remainingBooks =  daysLeft* library.canShipBooksPerDay
-        newBooks = []
+        newBooks = np.array([],dtype=int)
         books = library.books
         books = random.shuffle(books)
         for book in library.books:
             if remainingBooks == 0:
                 break
-            newBooks.append(book.book_id)
+            newBooks=np.append(newBooks,book)
             remainingBooks -= 1
         self.BooksSelectedByLibrary[library_id] = newBooks
 
 
     def FillLibrarieWithBooksOrResize(self,library_id,manager,daysLeft):
         NewNbooks = daysLeft * manager.libraries[library_id].canShipBooksPerDay
-        OldNbooks = len(self.BooksSelectedByLibrary[library_id])
+        try:
+            OldNbooks = len(self.BooksSelectedByLibrary[library_id])
+        except:
+            self.BooksSelectedByLibrary[library_id] = np.array([],dtype=int)
+            OldNbooks = 0
+        print("LibraryId: ",library_id)
+        print("OldNbooks: ",OldNbooks," NewNbooks: ",NewNbooks)
         #crop random books if the list is too big
         if OldNbooks > NewNbooks:
             tmpList = self.BooksSelectedByLibrary[library_id]
@@ -37,7 +42,7 @@ class Solution:
             randomized_books =  manager.libraries[library_id].books
             for book in randomized_books:
                 if not book in self.BooksSelectedByLibrary[library_id]:
-                    self.BooksSelectedByLibrary[library_id].append(book)
+                    self.BooksSelectedByLibrary[library_id] = np.append(self.BooksSelectedByLibrary[library_id],book)
 
 
     def FillWithRandomLibraries(self,manager,DaysLeft):
@@ -73,8 +78,8 @@ class Solution:
         for library in self.BooksSelectedByLibrary:
             for book in self.BooksSelectedByLibrary[library]:
                 found = False
-                for i in manager.libraries[library].books:
-                    if i.book_id == book:
+                for book_id in manager.libraries[library].books:
+                    if book_id == book:
                         found = True
                         break
                 if not found:
@@ -100,6 +105,7 @@ class Solution:
             new_days -= manager.libraries[library].signTime
             nbooks = len(booksSelected)
             if nbooks > new_days*manager.libraries[library].canShipBooksPerDay:
+                print(nbooks,str(new_days*manager.libraries[library].canShipBooksPerDay))
                 print("Number of books doesnt match the days left and the books per day of the library")
                 return False
         return True
@@ -111,10 +117,10 @@ class Solution:
     def evaluate(self,manager):
         score = 0
         books = set()
-        for books in self.BooksSelectedByLibrary.values():
-            for book_id in books:
+        for books1 in self.BooksSelectedByLibrary.values():
+            for book_id in books1:
                 if book_id not in books:
-                    score += manager.bookScores[book_id]
+                    score += manager.books[book_id]
                     books.add(book_id)
         return score
     def mutate_swap_order(self,manager):
@@ -126,20 +132,30 @@ class Solution:
         while i == j:
             j = random.randint(0,len(self.LibrariesSelected))
         daysLeft = manager.nDays
+        recalculate = False
         for library_index in np.arange(0,len(self.LibrariesSelected)):
             library_id = self.LibrariesSelected[library_index]
             if i == library_index or j == library_index:
                 new_library_id = self.LibrariesSelected[j] if i == library_index else self.LibrariesSelected[i]
                 daysLeft -= manager.libraries[new_library_id].signTime
+                print("library_id:",library_index,"days left:",daysLeft)
                 self.FillLibrarieWithBooksOrResize(new_library_id,manager,daysLeft)
+                recalculate = True
             else:
                 daysLeft -= manager.libraries[library_id].signTime
+                if recalculate:
+                    self.FillLibrarieWithBooksOrResize(library_id,manager,daysLeft)
             if i < library_index and j < library_index:
                 break
-            
+        print(self.BooksSelectedByLibrary)
         self.LibrariesSelected[i],self.LibrariesSelected[j] = self.LibrariesSelected[j],self.LibrariesSelected[i]
     def mutation(self,manager):
-        self.mutate_swap_order(manager)
+        #r = random.rand(0,3)
+        r=0
+        if r == 0:
+            #self.mutate_swap_libraries(manager)
+        #elif r == 1:
+            self.mutate_swap_order(manager)
 
     def mutate_swap_libraries(self,manager):
         #swap two libraries
@@ -148,7 +164,7 @@ class Solution:
         found = False
         library_id_j = -1
         tries = 0
-        while not found and tries < 1000:
+        while not found and tries < 1000 and len(libraries) > 0:
             library_id_j = random.choice(libraries)
             if library_id_j not in self.LibrariesSelected:
                 found = True
@@ -163,7 +179,7 @@ class Solution:
         daysLeft = manager.nDays
         recalculate = False
         size_of_libraries = len(self.LibrariesSelected)
-        for library_index in np.arange(self.LibrariesSelected):  
+        for library_index in np.arange(len(self.LibrariesSelected)):  
             library_id = self.LibrariesSelected[library_index]
             if i == library_index:
                 daysLeft -= manager.libraries[library_id_j].signTime
@@ -185,3 +201,5 @@ class Solution:
                 self.BooksSelectedByLibrary.pop(library_id)
             self.LibrariesSelected = self.LibrariesSelected[:size_of_libraries]
         self.LibrariesSelected[i] = library_id_j
+    def crossover(self,manager,solution2):
+        return #future implementation
