@@ -12,6 +12,8 @@ class Solution:
     def reshuffleBooksFromLibrary(self,library_id,manager,daysLeft):
         library = manager.libraries[library_id]
         remainingBooks =  daysLeft* library.canShipBooksPerDay
+        #print("LibraryId: ",library_id)
+        #print("Remaining Books: ",remainingBooks)
         newBooks = np.array([],dtype=int)
         books = library.books
         books = random.shuffle(books)
@@ -25,24 +27,33 @@ class Solution:
 
     def FillLibrarieWithBooksOrResize(self,library_id,manager,daysLeft):
         NewNbooks = daysLeft * manager.libraries[library_id].canShipBooksPerDay
+        #print("NewNbooks:",NewNbooks)
+        #print("Nbooks:",NewNbooks)
         try:
             OldNbooks = len(self.BooksSelectedByLibrary[library_id])
         except:
             self.BooksSelectedByLibrary[library_id] = np.array([],dtype=int)
             OldNbooks = 0
-        print("LibraryId: ",library_id)
-        print("OldNbooks: ",OldNbooks," NewNbooks: ",NewNbooks)
+        #print("LibraryId: ",library_id)
+        #print("OldNbooks: ",OldNbooks," NewNbooks: ",NewNbooks)
         #crop random books if the list is too big
         if OldNbooks > NewNbooks:
             tmpList = self.BooksSelectedByLibrary[library_id]
             random.shuffle(tmpList)
+            #print("Size of list cropped:",len(tmpList[:NewNbooks]))
             self.BooksSelectedByLibrary[library_id] = tmpList[:NewNbooks]
         #add random books if the list is too small
         if OldNbooks < NewNbooks:
             randomized_books =  manager.libraries[library_id].books
+            addedBooksNumber = NewNbooks - OldNbooks
             for book in randomized_books:
+                if addedBooksNumber == 0:
+                    break
                 if not book in self.BooksSelectedByLibrary[library_id]:
                     self.BooksSelectedByLibrary[library_id] = np.append(self.BooksSelectedByLibrary[library_id],book)
+                    addedBooksNumber -= 1
+        #print("LibraryId: ",library_id)
+        #print("Books: ",len(self.BooksSelectedByLibrary[library_id]))
 
 
     def FillWithRandomLibraries(self,manager,DaysLeft):
@@ -53,7 +64,7 @@ class Solution:
             library = manager.libraries[library_id]
             if DaysLeft-library.signTime >=0 and library_id not in self.LibrariesSelected:
                 DaysLeft = DaysLeft - library.signTime
-                self.LibrariesSelected = np.append(library_id,self.LibrariesSelected)
+                self.LibrariesSelected = np.append(self.LibrariesSelected,library_id)
                 self.BooksSelectedByLibrary[library_id] = np.array([])
                 self.reshuffleBooksFromLibrary(library_id,manager,DaysLeft)
             # remove from the possible to add to the list of libraries
@@ -105,7 +116,8 @@ class Solution:
             new_days -= manager.libraries[library].signTime
             nbooks = len(booksSelected)
             if nbooks > new_days*manager.libraries[library].canShipBooksPerDay:
-                print(nbooks,str(new_days*manager.libraries[library].canShipBooksPerDay))
+                print("Library_id",str(library))
+                print("It is ",nbooks,"Should Be ",str(new_days*manager.libraries[library].canShipBooksPerDay))
                 print("Number of books doesnt match the days left and the books per day of the library")
                 return False
         return True
@@ -138,7 +150,7 @@ class Solution:
             if i == library_index or j == library_index:
                 new_library_id = self.LibrariesSelected[j] if i == library_index else self.LibrariesSelected[i]
                 daysLeft -= manager.libraries[new_library_id].signTime
-                print("library_id:",library_index,"days left:",daysLeft)
+                #print("library_id:",new_library_id,"days left:",daysLeft)
                 self.FillLibrarieWithBooksOrResize(new_library_id,manager,daysLeft)
                 recalculate = True
             else:
@@ -147,15 +159,16 @@ class Solution:
                     self.FillLibrarieWithBooksOrResize(library_id,manager,daysLeft)
             if i < library_index and j < library_index:
                 break
-        print(self.BooksSelectedByLibrary)
+        #print(self.BooksSelectedByLibrary)
         self.LibrariesSelected[i],self.LibrariesSelected[j] = self.LibrariesSelected[j],self.LibrariesSelected[i]
     def mutation(self,manager):
-        #r = random.rand(0,3)
-        r=0
+        r = random.randint(0,3)
         if r == 0:
-            #self.mutate_swap_libraries(manager)
-        #elif r == 1:
+            self.mutate_swap_libraries(manager)
+        elif r == 1:
             self.mutate_swap_order(manager)
+        elif r == 2:
+            self.mutate_shuffle_some_books(manager)
 
     def mutate_swap_libraries(self,manager):
         #swap two libraries
@@ -201,5 +214,50 @@ class Solution:
                 self.BooksSelectedByLibrary.pop(library_id)
             self.LibrariesSelected = self.LibrariesSelected[:size_of_libraries]
         self.LibrariesSelected[i] = library_id_j
-    def crossover(self,manager,solution2):
+    def singlepoint_crossover(self,manager,solution):
+        middle_days = manager.nDays//2
+        counter_day1 = 0
+        libraries1 = np.array([],dtype=int)
+        tmp_book_libraries1 = {}
+        for library in self.LibrariesSelected:
+            counter_day1 += manager.libraries[library].signTime
+            if counter_day1 > middle_days:
+                counter_day1 -= manager.libraries[library].signTime
+                break
+            try:
+                tmp_book_libraries1[library] = self.BooksSelectedByLibrary[library]
+            except:
+                tmp_book_libraries1[library] = np.array([],dtype=int)
+            libraries1 = np.append(libraries1,library)
+        self.BooksSelectedByLibrary = tmp_book_libraries1
+        libraries2 = np.array([],dtype=int)
+        counter_day2 = counter_day1
+        for library in solution.LibrariesSelected[::-1]:
+            counter_day2 += manager.libraries[library].signTime
+            if counter_day2 > manager.nDays:
+                break
+            if library not in libraries1:
+                libraries2 = np.append(libraries2,library)
+                self.BooksSelectedByLibrary[library] = solution.BooksSelectedByLibrary[library]
+        libraries2 = libraries2[::-1]
+        for i in libraries2:
+            counter_day1 += manager.libraries[i].signTime
+            self.FillLibrarieWithBooksOrResize(i,manager,manager.nDays - counter_day1)
+        self.LibrariesSelected = np.append(libraries1 ,libraries2)
         return #future implementation
+    def mutate_shuffle_some_books(self,manager):
+        #get a random number of libraries
+        nLibraries = random.randint(0,len(self.LibrariesSelected))
+        library_ids = np.array([],dtype=int)
+        #shuffle some books
+        #print("Libraries:",nLibraries)
+        for i in np.arange(0,nLibraries):
+            library_id = random.choice(self.LibrariesSelected)
+            library_ids = np.append(library_ids,library_id)
+        leftDays = manager.nDays
+        for library_id in self.LibrariesSelected:
+            leftDays -= manager.libraries[library_id].signTime
+            #print("LibraryId: ",library_id,"DaysLeft: ",leftDays,"nBooks :",leftDays*manager.libraries[library_id].canShipBooksPerDay)
+            if library_id in library_ids:
+
+                self.reshuffleBooksFromLibrary(library_id,manager,leftDays)

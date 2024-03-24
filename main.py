@@ -101,6 +101,7 @@ class DataManager:
         print(f"Init Solution:  {best_score}, score: {best_score}")
         time1 = time.time()
         time_start = time1
+        print(solution.LibrariesSelected)
         while iteration < num_iterations:
             """if iteration % 1000 == 0:
                 time2 = time.time()
@@ -109,18 +110,17 @@ class DataManager:
                 print("time:",timeExpected/60,"minutes")
                 (print(f"Solution:       {iteration}, score: {best_score}"))   
                 time1 = time2"""
-            print(f"Solution:       {iteration}, score: {best_score}")
             iteration += 1
             neighbor_solution = copy.deepcopy(best_solution)
             neighbor_solution.mutation(self)
             neighbor_score = neighbor_solution.evaluate(self)
+            #print(f"Solution:       {iteration}, score: {neighbor_score}")
             if neighbor_score > best_score:
                 best_solution = neighbor_solution
                 best_score = neighbor_score
                 if log:
                     (print(f"Solution:       {iteration}, score: {best_score}"))
         #print(f"Final Solution: {best_score}, firstscore: {first_score}")
-        print(best_solution.BooksSelectedByLibrary)
         print(best_solution.LibrariesSelected)
         if best_solution.checkSolution(self):
             print("Solution is valid")
@@ -141,7 +141,7 @@ def test(Sorted = True):
         for i in range(n):
             time1 = time.time()
             manager =DataManager(test,Sorted)
-            result1 =  manager.hill_climbing(2000, False)
+            result1 =  manager.hill_climbing(4000, False)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1
@@ -149,9 +149,10 @@ def test(Sorted = True):
                 result += result1.evaluate(manager)/n
         f.write(test + " " + str(result) + "\n")
         f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
+        f.write("errors: " + str(errors) + "\n")
         print("errors: ",errors)
     f.close()
-def testCrossover(manager):
+def testCrossover(manager,sorted = True):
     print("Test Crossover")
     n = 70
     initialSolution = Solution()
@@ -168,12 +169,12 @@ def testCrossover(manager):
     else:
         print("Solution is valid")
         return True
-def testAll():
-    tests = ["b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+def testAll(order = True):
+    tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     for i in tests:
         print(i)
-        manager = DataManager(i)
-        if not testCrossover(manager):
+        manager = DataManager(i,order)
+        if not testCrossover(manager,order):
             print("Error in test")
             return False
 if __name__ == "__main__":
@@ -181,11 +182,32 @@ if __name__ == "__main__":
     #test(False)
     
     #print(manager.libraries[0].books)
-    manager= DataManager("a_example.txt",False)
-    time1 = time.time()
-    manager.hill_climbing(1, True)
-
-    print("time elapsed:",(time.time()-time1),"seconds")
+    manager = DataManager("a_example.txt",False)
+    inititalSolution = Solution()
+    inititalSolution.generate(manager)
+    for i in range(100):
+        print(i)
+        s = Solution()
+        s.generate(manager)
+        inititalSolution.singlepoint_crossover(manager,s)
+        inititalSolution.mutation(manager)
+    print(inititalSolution.LibrariesSelected)
+    print(inititalSolution.BooksSelectedByLibrary)
+    test(False)
+    """
+    manager= DataManager("b_read_on.txt",False)
+    sol1 = Solution()
+    sol1.generate(manager)
+    sol2 = Solution()
+    sol2.generate(manager)
+    for i in range(10000):
+        sol1.mutation(manager)
+        sol2.mutation(manager)
+        sol1.crossover(manager,sol2)
+        sol2.crossover(manager,sol1)
+    print(sol1.LibrariesSelected)
+    print(sol2.checkSolution(manager))"""
+    #manager.hill_climbing(1000,True)
     #print(manager.signTimeToLibraries[16])
     #print(manager.libraries[5].books.sum())
     #print(manager.libraries[94].books.sum())

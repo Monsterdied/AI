@@ -53,3 +53,17 @@ c_incunabula.txt 898221.3333333335
 time elapsed: 1.6344532171885173 seconds
 Error in test
 Error in test
+####### new random test portatilHill Climbing with random 2000
+a_example.txt 21.0
+time elapsed: 0.06246757507324219 seconds
+b_read_on.txt 5623566.666666666
+time elapsed: 27.87670620282491 seconds
+c_incunabula.txt 862302.0
+time elapsed: 3.8451565901438394 seconds
+d_tough_choices.txt 4347546.666666666
+time elapsed: 186.50971269607544 seconds
+e_so_many_books.txt 1466846.6666666667
+time elapsed: 5.142741759618123 seconds
+f_libraries_of_the_world.txt 36378111.666666664
+time elapsed: 25.85975670814514 seconds
+####### new random test portatilHill Climbing with random 4000
