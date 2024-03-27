@@ -29,11 +29,11 @@ class Solution:
         NewNbooks = daysLeft * manager.libraries[library_id].canShipBooksPerDay
         #print("NewNbooks:",NewNbooks)
         #print("Nbooks:",NewNbooks)
-        try:
-            OldNbooks = len(self.BooksSelectedByLibrary[library_id])
-        except:
-            self.BooksSelectedByLibrary[library_id] = np.array([],dtype=int)
-            OldNbooks = 0
+        #try:
+        OldNbooks = len(self.BooksSelectedByLibrary[library_id])
+        #except:
+        #    self.BooksSelectedByLibrary[library_id] = np.array([],dtype=int)
+        #    OldNbooks = 0
         #print("LibraryId: ",library_id)
         #print("OldNbooks: ",OldNbooks," NewNbooks: ",NewNbooks)
         #crop random books if the list is too big
@@ -96,6 +96,10 @@ class Solution:
                 if not found:
                     print("Book not in the list of books of the library")
                     return False
+        for library in self.BooksSelectedByLibrary.keys():
+            if not library in self.LibrariesSelected:
+                print( "Library:",library," not in the selected list!!!!\n")
+                return False 
         libraries = set()
         for library in self.BooksSelectedByLibrary:
             if library in libraries:
@@ -129,8 +133,9 @@ class Solution:
     def evaluate(self,manager):
         score = 0
         books = set()
-        for books1 in self.BooksSelectedByLibrary.values():
-            for book_id in books1:
+        for library in self.LibrariesSelected:
+
+            for book_id in self.BooksSelectedByLibrary[library]:
                 if book_id not in books:
                     score += manager.books[book_id]
                     books.add(book_id)
@@ -178,11 +183,12 @@ class Solution:
         library_id_j = -1
         tries = 0
         while not found and tries < 1000 and len(libraries) > 0:
-            library_id_j = random.choice(libraries)
-            if library_id_j not in self.LibrariesSelected:
+            library_id_tmp = random.choice(libraries)
+            if library_id_tmp not in self.LibrariesSelected:
+                library_id_j = library_id_tmp
                 found = True
                 break
-            libraries = np.delete(libraries,np.where(libraries == library_id_j))
+            libraries = np.delete(libraries,np.where(libraries == library_id_tmp))
             tries += 1
         if library_id_j == -1:
             print("Error: No Suitable Library Found")
@@ -199,13 +205,15 @@ class Solution:
                 recalculate = True
                 # if the library is the last one and sometimes if the days left get negative it cant be added
                 if daysLeft > 0:
+                    self.BooksSelectedByLibrary.pop(library_id)
+                    self.BooksSelectedByLibrary[library_id_j] = np.array([],dtype=int)
                     self.FillLibrarieWithBooksOrResize(library_id_j,manager,daysLeft)
                 else:
                     return
             else:
                 daysLeft -= manager.libraries[library_id].signTime
                 if recalculate:
-                    if daysLeft > 0:
+                    if daysLeft < 0:
                         size_of_libraries = library_index
                         break
                     self.FillLibrarieWithBooksOrResize(library_id,manager,daysLeft)

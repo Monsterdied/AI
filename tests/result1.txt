@@ -114,3 +114,44 @@ Hill Climbing with random
 a_example.txt 21.0
 time elapsed: 0.0337227980295817 seconds
 errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.15120228131612143 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.0
+time elapsed: 0.1412073771158854 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.666666666666668
+time elapsed: 0.1421515146891276 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.333333333333332
+time elapsed: 0.13280081748962402 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 16.666666666666668
+time elapsed: 0.0557699998219808 seconds
+errors: 0
+b_read_on.txt 4691600.0
+time elapsed: 7.025847593943278 seconds
+errors: 0
+c_incunabula.txt 1163312.3333333333
+time elapsed: 2.899533669153849 seconds
+errors: 0
+d_tough_choices.txt 4389883.333333333
+time elapsed: 81.28635207811992 seconds
+errors: 0
+e_so_many_books.txt 1531342.6666666667
+time elapsed: 2.7116612593332925 seconds
+errors: 0
+f_libraries_of_the_world.txt 1922896.0
+time elapsed: 3.265809933344523 seconds
+errors: 0
