@@ -155,3 +155,41 @@ errors: 0
 f_libraries_of_the_world.txt 1922896.0
 time elapsed: 3.265809933344523 seconds
 errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.05236275990804037 seconds
+errors: 0
+b_read_on.txt 5616733.333333334
+time elapsed: 14.490536451339722 seconds
+errors: 0
+c_incunabula.txt 1028851.0
+time elapsed: 2.2175797621409097 seconds
+errors: 0
+d_tough_choices.txt 4356971.666666666
+time elapsed: 106.73622099558513 seconds
+errors: 0
+e_so_many_books.txt 1428065.6666666667
+time elapsed: 3.5336395104726157 seconds
+errors: 0
+f_libraries_of_the_world.txt 1958889.3333333333
+time elapsed: 3.102041006088257 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.04295166333516439 seconds
+errors: 0
+b_read_on.txt 5603800.0
+time elapsed: 14.469267209370932 seconds
+errors: 0
+c_incunabula.txt 2158921.333333333
+time elapsed: 15.046292225519815 seconds
+errors: 0
+d_tough_choices.txt 4361456.666666667
+time elapsed: 259.0817611217499 seconds
+errors: 0
+e_so_many_books.txt 2239201.0
+time elapsed: 5.164354642232259 seconds
+errors: 0
+f_libraries_of_the_world.txt 4138633.333333334
+time elapsed: 6.066478093465169 seconds
+errors: 0
