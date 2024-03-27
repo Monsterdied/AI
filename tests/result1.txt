@@ -67,3 +67,11 @@ time elapsed: 5.142741759618123 seconds
 f_libraries_of_the_world.txt 36378111.666666664
 time elapsed: 25.85975670814514 seconds
 ####### new random test portatilHill Climbing with random 4000
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.14466611544291177 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.15033340454101562 seconds
+errors: 0

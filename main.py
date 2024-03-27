@@ -4,6 +4,7 @@ from book import Book
 #from solution import Solution
 from solutionRandom import Solution
 from sortedcontainers import SortedList
+from concurrent.futures import ThreadPoolExecutor
 import time
 import copy
 import numpy as np
@@ -128,7 +129,83 @@ class DataManager:
             print("Solution is invalid")
             return False
         print("time elapsed:",(time.time()-time_start),"seconds")
+        print("solution:",best_score.evaluate(self))
         return best_solution
+    
+    # ------------------------------------Tabu Search-----------------------------------    
+    def tabu_search(self,max_iterations):
+        iteration = 0
+        stagnation_threshold = 5
+        stagnation_count = 0
+        tabu_tenure = 10
+        neighborhood_size = 10
+        solution = Solution()
+        solution.generate(self)
+        best_solution = copy.deepcopy(solution)
+        best_score = best_solution.evaluate(self)
+        initial_score = best_solution.evaluate(self)
+        tabu_list = []
+        print(f"Solution:", initial_score)
+        time1 = time.time()
+        while iteration < max_iterations:
+
+            if iteration % (max_iterations - 1) == 0:
+                time2 = time.time()
+                print(f"Time: {time2 - time1}")
+                print(f"Solution: {iteration}, score: {best_score}")
+                time1 = time2
+
+            iteration += 1
+            neighbors_list = []
+            
+            for i in range(neighborhood_size):
+                neighbor_solution = copy.deepcopy(best_solution)
+                neighbor_solution.mutation(self)
+                neighbors_list.append(neighbor_solution)
+
+            # Best neighbor
+            best_neighbor = None
+            best_neighbor_score = -1
+            for neighbor in neighbors_list:
+                neighbor_score = neighbor.evaluate(self)
+                if neighbor not in [item[0] for item in tabu_list] or neighbor_score > best_score:
+                    if neighbor_score > best_neighbor_score:
+                        best_neighbor = neighbor
+                        best_neighbor_score = neighbor_score
+
+            if best_neighbor is None:
+                print("No valid neighbors")
+                intensified_solution = copy.deepcopy(best_solution)
+                for _ in range(neighborhood_size):
+                    intensified_solution.mutation(self)
+                best_neighbor = intensified_solution
+                best_neighbor_score = best_neighbor.evaluate(self)
+
+            # Update best solution
+            if best_neighbor_score > best_score:
+                best_solution = best_neighbor
+                best_score = best_neighbor_score
+                tabu_list.append((best_neighbor, tabu_tenure))
+                tabu_tenure = max(5, tabu_tenure - 1) 
+                stagnation_count = 0
+            else:
+                stagnation_count += 1
+                if stagnation_count >= stagnation_threshold:
+                    tabu_tenure = min(20, tabu_tenure + 2)
+
+             # Update and shorten tabu list
+            for i in range(len(tabu_list) - 1, -1, -1): 
+                tabu_list[i] = (tabu_list[i][0], tabu_list[i][1] - 1) 
+                if tabu_list[i][1] <= 0:
+                    tabu_list.pop(i)
+
+
+        if solution.checkSolution(self):
+            print("Solution is valid")
+
+        #--------------------------------------------------------------------------------
+
+
 def test(Sorted = True):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
@@ -177,47 +254,9 @@ def testAll(order = True):
         if not testCrossover(manager,order):
             print("Error in test")
             return False
-if __name__ == "__main__":
-    #testAll()
-    #test(False)
-    
-    #print(manager.libraries[0].books)
-    manager = DataManager("a_example.txt",False)
-    inititalSolution = Solution()
-    inititalSolution.generate(manager)
-    for i in range(100):
-        print(i)
-        s = Solution()
-        s.generate(manager)
-        inititalSolution.singlepoint_crossover(manager,s)
-        inititalSolution.mutation(manager)
-    print(inititalSolution.LibrariesSelected)
-    print(inititalSolution.BooksSelectedByLibrary)
-    test(False)
-    """
-    manager= DataManager("b_read_on.txt",False)
-    sol1 = Solution()
-    sol1.generate(manager)
-    sol2 = Solution()
-    sol2.generate(manager)
-    for i in range(10000):
-        sol1.mutation(manager)
-        sol2.mutation(manager)
-        sol1.crossover(manager,sol2)
-        sol2.crossover(manager,sol1)
-    print(sol1.LibrariesSelected)
-    print(sol2.checkSolution(manager))"""
-    #manager.hill_climbing(1000,True)
-    #print(manager.signTimeToLibraries[16])
-    #print(manager.libraries[5].books.sum())
-    #print(manager.libraries[94].books.sum())
-    #s = Solution()
-    #s.generate(manager)
-    #s.mutation(manager)
-    #s.checkSolution(manager)
+    print("All tests passed")
 
-    #newSolution = manager.hill_climbing(100, True)
-    #print(newSolution.BooksSelectedByLibrary.keys())
-    #print(newSolution)
-    #manager.print_libraries()
-            
+if __name__ == "__main__":
+    manager = DataManager("b_read_on.txt",False)
+    manager.tabu_search(50)
+    manager.hill_climbing(250, True)
