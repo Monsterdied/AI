@@ -141,7 +141,7 @@ def test(Sorted = True):
         for i in range(n):
             time1 = time.time()
             manager =DataManager(test,Sorted)
-            result1 =  manager.hill_climbing(4000, False)
+            result1 =  manager.hill_climbing(1000, False)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1

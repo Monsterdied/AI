@@ -67,3 +67,50 @@ time elapsed: 5.142741759618123 seconds
 f_libraries_of_the_world.txt 36378111.666666664
 time elapsed: 25.85975670814514 seconds
 ####### new random test portatilHill Climbing with random 4000
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.11705549558003743 seconds
+errors: 0
+b_read_on.txt 5614300.0
+time elapsed: 52.273575941721596 seconds
+errors: 0
+c_incunabula.txt 889526.3333333333
+time elapsed: 5.513914903004964 seconds
+errors: 0
+d_tough_choices.txt 4356581.666666666
+time elapsed: 308.5304923057556 seconds
+errors: 0
+e_so_many_books.txt 6305446.666666666
+time elapsed: 15.926863193511963 seconds
+errors: 0
+f_libraries_of_the_world.txt 39214385.0
+time elapsed: 61.6555270353953 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.2965869903564453 seconds
+errors: 0
+b_read_on.txt 6193133.333333333
+time elapsed: 126.17369532585144 seconds
+errors: 0
+c_incunabula.txt 927300.3333333333
+time elapsed: 14.189613342285156 seconds
+errors: 0
+d_tough_choices.txt 4353115.0
+time elapsed: 774.9908611774445 seconds
+errors: 0
+e_so_many_books.txt 11113292.333333334
+time elapsed: 67.26647138595581 seconds
+errors: 0
+f_libraries_of_the_world.txt 39838250.666666664
+time elapsed: 218.23063985506693 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 29.242665767669678 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.0337227980295817 seconds
+errors: 0
