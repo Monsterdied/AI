@@ -276,8 +276,8 @@ def menu():
             for i, file in enumerate(files):
                 print(f"{i} - {file}")
             file = input("Enter your choice:")
-            if file.isdigit() and 1 <= int(file) <= len(files):
-                file = files[int(file) - 1]
+            if file.isdigit() and 0 <= int(file) <= len(files)-1:
+                file = files[int(file)]
             else:
                 print("Invalid file")
                 continue
