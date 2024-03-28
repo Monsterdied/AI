@@ -260,21 +260,47 @@ def testAll():
             return False
     print("All tests passed")
 
-if __name__ == "__main__":
-    test()
-    testAll()
-    """manager = DataManager("b_read_on.txt")
-    solution =Solution()
-    solution.generate(manager)
-    for i in np.arange(100000):
-        print(i)
-        solution.mutation(manager)
-        if i%1000 == 0:
-            if not solution.checkSolution(manager):
-                print(solution.LibrariesSelected)
-                print(solution.BooksSelectedByLibrary)
+def menu():
+    while True:
+        print("Select type of algorithm:")
+        print("1 - Hill Climbing")
+        print("2 - Tabu Search")
+        print("3 - Simmulated Annealing")
+        print("4 - Genetic Algorithm")
+        print("5 - Exit")
+        algorithm = input("Enter your choice:")
+
+        if algorithm in ["1","2","3","4","5"]:
+            print("Select file:")
+            files = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+            for i, file in enumerate(files):
+                print(f"{i} - {file}")
+            file = input("Enter your choice:")
+            if file.isdigit() and 1 <= int(file) <= len(files):
+                file = files[int(file) - 1]
+            else:
+                print("Invalid file")
+                continue
+            iterations = input("Enter number of iterations: ")
+            if not iterations.isdigit() or int(iterations) < 1:
+                print("Invalid number of iterations. Please enter a positive integer.")
+                continue
+
+            manager = DataManager(file)
+            if algorithm == "1":
+                manager.hill_climbing(int(iterations))
+            elif algorithm == "2":
+                manager.tabu_search(int(iterations))
+            elif algorithm == "3":
+                print("Simmulated Annealing")
+            elif algorithm == "4":
+                print("Genetic Algorithm")
+            elif algorithm == "5":
                 break
-    """
-    """manager = DataManager("b_read_on.txt")
-    manager.tabu_search(50)
-    manager.hill_climbing(250)"""
+            else:
+                print("Invalid choice. Please enter a number between 1 and 5.")
+
+
+if __name__ == "__main__":
+    menu()
+
