@@ -7,6 +7,7 @@ import time
 import copy
 import numpy as np
 import random
+import math
 #from solution import Solution
 #BooksSorted = True
 from solutionRandom import Solution
@@ -207,6 +208,58 @@ class DataManager:
 
         if solution.checkSolution(self):
             print("Solution is valid")
+    
+    # ------------------------------------Mutation-----------------------------------
+    def simulated_annealing(self,num_iterations, log=False):
+        iteration = 0
+        temperature = 1000
+        solution = Solution()
+        solution.generate(self)
+        # Best solution after 'num_iterations' iterations without improvement
+        best_solution = copy.deepcopy(solution) 
+        first_score = best_solution.evaluate(self)
+        best_score = best_solution.evaluate(self)
+        
+        print(f"Init Solution:  {best_score}, score: {best_score}")
+        time1 = time.time()
+        time_start = time1
+        print(solution.LibrariesSelected)
+        while iteration < num_iterations:
+            """if iteration % 1000 == 0:
+                time2 = time.time()
+                timeExpected = (time2 - time1) * (num_iterations - iteration) / 1000
+                print("Iteration: ", timeExpected, " seconds left")
+                print("time:",timeExpected/60,"minutes")
+                (print(f"Solution:       {iteration}, score: {best_score}"))   
+                time1 = time2"""
+            iteration += 1
+            temperature *= 0.999
+
+            neighbor_solution = copy.deepcopy(best_solution)
+            neighbor_solution.mutation(self)
+            neighbor_score = neighbor_solution.evaluate(self)
+
+            delta = neighbor_score - best_score
+
+            print(f"Solution:       {iteration}, score: {neighbor_score}")
+            if delta > 0 or math.e ** (delta / temperature) > random.random():
+                best_solution = neighbor_solution
+                best_score = neighbor_score
+                if log:
+                    (print(f"Solution:       {iteration}, score: {best_score}"))
+            
+        #print(f"Final Solution: {best_score}, firstscore: {first_score}")
+        print(best_solution.LibrariesSelected)
+        if best_solution.checkSolution(self):
+            print("Solution is valid")
+        else:
+            print(best_solution.BooksSelectedByLibrary)
+            print(best_solution.LibrariesSelected)
+            print("Solution is invalid")
+            return False
+        print("time elapsed:",(time.time()-time_start),"seconds")
+        print("solution:",best_score)
+        return best_solution
 
     # ------------------------------------Genetic Algorithm-----------------------------------
     def genetic_algo(self, manager, num_iterations, log=False):
@@ -350,7 +403,7 @@ def menu():
             elif algorithm == "2":
                 manager.tabu_search(int(iterations))
             elif algorithm == "3":
-                print("Simmulated Annealing")
+                manager.simulated_annealing(int(iterations))
             elif algorithm == "4":
                 manager.genetic_algo(manager, int(iterations))
             elif algorithm == "5":
