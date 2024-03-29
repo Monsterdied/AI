@@ -6,6 +6,7 @@ from concurrent.futures import ThreadPoolExecutor
 import time
 import copy
 import numpy as np
+import random
 #from solution import Solution
 #BooksSorted = True
 from solutionRandom import Solution
@@ -207,8 +208,65 @@ class DataManager:
         if solution.checkSolution(self):
             print("Solution is valid")
 
-        #--------------------------------------------------------------------------------
+    # ------------------------------------Genetic Algorithm-----------------------------------
+    def genetic_algo(self, manager, num_iterations, log=False):
+        # Crate random population
+        population = []
+        population_size = 30
+        for i in range(population_size):
+            new_solution = Solution()
+            new_solution.generate(self)
+            population.append(new_solution)
 
+        iteration = 0
+        # Best solution after 'num_iterations' iterations without improvement
+        best_solution = population[0]
+        best_score = best_solution.evaluate(self)
+
+        for new_solution in population:
+            new_score = new_solution.evaluate(self)
+            if new_score > best_score:
+                best_solution = new_solution
+                best_score = new_score
+        
+        print(f"Init Solution:  {best_score}, score: {best_score}")
+        time1 = time.time()
+        time_start = time1
+        #print(solution.LibrariesSelected)
+        while iteration < num_iterations:
+            iteration += 1
+
+            parent_1 = copy.deepcopy(best_solution)
+            parent_2 = copy.deepcopy(population[random.randint(0, population_size - 1)])
+
+            parent_1.singlepoint_crossover(manager, parent_2)
+            child = parent_1
+
+            if random.random() < 0.1:
+                child.mutation(manager)
+
+            population[random.randint(0, population_size - 1)] = child
+
+            child_score = child.evaluate(self)
+            print(f"Solution:       {iteration}, score: {child_score}")
+            if child_score > best_score:
+                best_solution = child
+                best_score = child_score
+                if log:
+                    (print(f"Solution:       {iteration}, score: {best_score}"))
+        
+        #print(f"Final Solution: {best_score}, firstscore: {first_score}")
+        print(best_solution.LibrariesSelected)
+        if best_solution.checkSolution(self):
+            print("Solution is valid")
+        else:
+            print(best_solution.BooksSelectedByLibrary)
+            print(best_solution.LibrariesSelected)
+            print("Solution is invalid")
+            return False
+        print("time elapsed:",(time.time()-time_start),"seconds")
+        print("solution:",best_score)
+        return best_solution
 
 def test():
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
@@ -294,7 +352,7 @@ def menu():
             elif algorithm == "3":
                 print("Simmulated Annealing")
             elif algorithm == "4":
-                print("Genetic Algorithm")
+                manager.genetic_algo(manager, int(iterations))
             elif algorithm == "5":
                 break
             else:
