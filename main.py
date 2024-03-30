@@ -556,10 +556,11 @@ def menu1():
                 print("Invalid choice. Please enter a number between 1 and 5.")
 
 
-if __name__ == "__main__":"""
+if __name__ == "__main__":
+    menu()
+    """
     testHill(3,1000)
     testAneling(3,1000)
     testTabbo(3,1000)
     testGenetic(3,1000)"""
-    menu()
 
