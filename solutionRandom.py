@@ -138,7 +138,8 @@ class Solution:
         score = 0
         books = set()
         for library in self.LibrariesSelected:
-
+            if library not in self.BooksSelectedByLibrary:
+                continue
             for book_id in self.BooksSelectedByLibrary[library]:
                 if book_id not in books:
                     score += manager.books[book_id]

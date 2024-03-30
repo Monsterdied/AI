@@ -8,6 +8,7 @@ import copy
 import numpy as np
 import random
 import math
+import matplotlib.pyplot as plt
 #from solution import Solution
 #BooksSorted = True
 from solutionRandom import Solution
@@ -225,13 +226,6 @@ class DataManager:
         time_start = time1
         print(solution.LibrariesSelected)
         while iteration < num_iterations:
-            """if iteration % 1000 == 0:
-                time2 = time.time()
-                timeExpected = (time2 - time1) * (num_iterations - iteration) / 1000
-                print("Iteration: ", timeExpected, " seconds left")
-                print("time:",timeExpected/60,"minutes")
-                (print(f"Solution:       {iteration}, score: {best_score}"))   
-                time1 = time2"""
             iteration += 1
             temperature *= 0.999
 
@@ -262,7 +256,7 @@ class DataManager:
         return best_solution
 
     # ------------------------------------Genetic Algorithm-----------------------------------
-    def genetic_algo(self, manager, num_iterations, log=False):
+    def genetic_algo(self,num_iterations, mutation_rate=0.1,log=False):
         # Crate random population
         population = []
         population_size = 30
@@ -292,11 +286,11 @@ class DataManager:
             parent_1 = copy.deepcopy(best_solution)
             parent_2 = copy.deepcopy(population[random.randint(0, population_size - 1)])
 
-            parent_1.singlepoint_crossover(manager, parent_2)
+            parent_1.singlepoint_crossover(self, parent_2)
             child = parent_1
 
-            if random.random() < 0.1:
-                child.mutation(manager)
+            if random.random() < mutation_rate:
+                child.mutation(self)
 
             population[random.randint(0, population_size - 1)] = child
 
@@ -321,29 +315,118 @@ class DataManager:
         print("solution:",best_score)
         return best_solution
 
-def test():
+def testHill(n=3,iterations = 1000):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
     f.write("Hill Climbing with random\n")
+    times = []
+    results = []
     for test in tests:
         print(test)
         result = 0
-        n = 3
         errors = 0
         for i in range(n):
             time1 = time.time()
             manager =DataManager(test)
-            result1 =  manager.hill_climbing(1000, False)
+            result1 =  manager.hill_climbing(iterations, False)
+            if not result1:
+                f.write("Error in test\n")
+                errors += 1
+            else:
+                result += result1.evaluate(manager)/n
+        results.append(result)
+        times.append((time.time()-time1)/n)
+        f.write(test + " " + str(result) + "\n")
+        f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
+        f.write("errors: " + str(errors) + "\n")
+        print("errors: ",errors)
+    f.close()
+    buildGraph(tests,results,"Score","Score_Hill_Climbing")
+    buildGraph(tests,times,"Time","Time_Hill_Climbing")
+def testAneling(n=3,iterations = 1000):
+    tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+    f = open("./tests/result1.txt", "a")
+    f.write("Hill Climbing with random\n")
+    times = []
+    results = []
+    for test in tests:
+        print(test)
+        result = 0
+        errors = 0
+        for i in range(n):
+            time1 = time.time()
+            manager =DataManager(test)
+            result1 =  manager.simulated_annealing(iterations, False)
+            if not result1:
+                f.write("Error in test\n")
+                errors += 1
+            else:
+                result += result1.evaluate(manager)/n
+        results.append(result)
+        times.append((time.time()-time1)/n)
+        f.write(test + " " + str(result) + "\n")
+        f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
+        f.write("errors: " + str(errors) + "\n")
+        print("errors: ",errors)
+    f.close()
+    buildGraph(tests,results,"Score","Score_Simulated_Annealing")
+    buildGraph(tests,times,"Time","Time_Simulated_Annealing")
+def testGenetic(n=3,iterations = 1000):
+    tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+    f = open("./tests/result1.txt", "a")
+    f.write("Hill Climbing with random\n")
+    times = []
+    results = []
+    for test in tests:
+        print(test)
+        result = 0
+        errors = 0
+        for i in range(n):
+            time1 = time.time()
+            manager =DataManager(test)
+            result1 =  manager.genetic_algo(iterations, False)
+            if not result1:
+                f.write("Error in test\n")
+                errors += 1
+            else:
+                result += result1.evaluate(manager)/n
+        results.append(result)
+        times.append((time.time()-time1)/n)
+        f.write(test + " " + str(result) + "\n")
+        f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
+        f.write("errors: " + str(errors) + "\n")
+        print("errors: ",errors)
+    f.close()
+    buildGraph(tests,results,"Score","Score_Genetic_Algorithm")
+    buildGraph(tests,times,"Time","Time_Genetic_Algorithm")
+def testTabbo(n=3,iterations = 1000):
+    tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
+    f = open("./tests/result1.txt", "a")
+    f.write("Hill Climbing with random\n")
+    times = []
+    results = []
+    for test in tests:
+        print(test)
+        result = 0
+        errors = 0
+        for i in range(n):
+            time1 = time.time()
+            manager =DataManager(test)
+            result1 =  manager.tabu_search(iterations, False)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1
             else:
                 result += result1.evaluate(manager)/n
         f.write(test + " " + str(result) + "\n")
+        results.append(result)
+        times.append((time.time()-time1)/n)
         f.write("time elapsed: " + str((time.time()-time1)/n) + " seconds\n")
         f.write("errors: " + str(errors) + "\n")
         print("errors: ",errors)
     f.close()
+    buildGraph(tests,results,"Score","Score_Tabu_Search")
+    buildGraph(tests,times,"Time","Time_Tabu_Search")
 def testCrossover(manager):
     print("Test Crossover")
     n = 70
@@ -370,8 +453,69 @@ def testAll():
             print("Error in test")
             return False
     print("All tests passed")
+def buildGraph(datasets,values,typeOfValues,GraphTitle):
+    plt.figure(figsize=(15, 6))
+    plt.bar(datasets, values)
+
+    # Adding labels and title
+    plt.xlabel('Datasets')
+    plt.ylabel(typeOfValues)
+    plt.title(GraphTitle)
+    plt.savefig("outputs/"+GraphTitle + ".png")
+    # Displaying the plot
+    plt.show()
 
 def menu():
+    while True:
+        print("Select type of algorithm:")
+        print("1 - Main Menu")
+        print("2 - Test")
+        print("3 - Exit")
+        algorithm = input("Enter your choice:")
+
+        if algorithm in ["1","2","3"]:
+
+            if algorithm == "1":
+                menu1()
+            elif algorithm == "2":
+                menuTest()
+            elif algorithm == "3":
+                break
+            else:
+                print("Invalid choice. Please enter a number between 1 and 5.")
+
+def menuTest():
+    while True:
+        print("Select type of algorithm:")
+        print("1 - Hill Climbing")
+        print("2 - Tabu Search")
+        print("3 - Simmulated Annealing")
+        print("4 - Genetic Algorithm")
+        print("5 - Exit")
+        algorithm = input("Enter your choice:")
+
+        if algorithm in ["1","2","3","4","5"]:
+            print("Select How many times to run the algorithm in each dataset and the maverage the results")
+            n = int(input())
+            iterations = input("Enter number of iterations: ")
+            if not iterations.isdigit() or int(iterations) < 1:
+                print("Invalid number of iterations. Please enter a positive integer.")
+                continue
+            if algorithm == "1":
+                testHill(n,int(iterations))
+            elif algorithm == "2":
+                testAneling(n,int(iterations))
+            elif algorithm == "3":
+                testTabbo(n,int(iterations))
+            elif algorithm == "4":
+                testGenetic(n,int(iterations))
+            elif algorithm == "5":
+                break
+            else:
+                print("Invalid choice. Please enter a number between 1 and 5.")
+
+
+def menu1():
     while True:
         print("Select type of algorithm:")
         print("1 - Hill Climbing")
@@ -405,13 +549,17 @@ def menu():
             elif algorithm == "3":
                 manager.simulated_annealing(int(iterations))
             elif algorithm == "4":
-                manager.genetic_algo(manager, int(iterations))
+                manager.genetic_algo(int(iterations))
             elif algorithm == "5":
                 break
             else:
                 print("Invalid choice. Please enter a number between 1 and 5.")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":"""
+    testHill(3,1000)
+    testAneling(3,1000)
+    testTabbo(3,1000)
+    testGenetic(3,1000)"""
     menu()
 

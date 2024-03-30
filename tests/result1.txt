@@ -193,3 +193,76 @@ errors: 0
 f_libraries_of_the_world.txt 4138633.333333334
 time elapsed: 6.066478093465169 seconds
 errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.04123385747273763 seconds
+errors: 0
+b_read_on.txt 4564766.666666667
+time elapsed: 7.623535553614299 seconds
+errors: 0
+c_incunabula.txt 982959.3333333333
+time elapsed: 6.7902664343516035 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.003306150436401367 seconds
+errors: 0
+b_read_on.txt 4467000.0
+time elapsed: 3.0554845333099365 seconds
+errors: 0
+c_incunabula.txt 894241.0
+time elapsed: 0.9995720386505127 seconds
+errors: 0
+d_tough_choices.txt 4343170.0
+time elapsed: 25.26176619529724 seconds
+errors: 0
+e_so_many_books.txt 635803.0
+time elapsed: 1.761518955230713 seconds
+errors: 0
+f_libraries_of_the_world.txt 1045879.0
+time elapsed: 1.8796772956848145 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.003231525421142578 seconds
+errors: 0
+b_read_on.txt 4766500.0
+time elapsed: 3.1035468578338623 seconds
+errors: 0
+c_incunabula.txt 1074203.0
+time elapsed: 2.425966501235962 seconds
+errors: 0
+d_tough_choices.txt 4343430.0
+time elapsed: 18.3627028465271 seconds
+errors: 0
+e_so_many_books.txt 631698.0
+time elapsed: 2.2881431579589844 seconds
+errors: 0
+f_libraries_of_the_world.txt 1014183.0
+time elapsed: 2.7868611812591553 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.0029816627502441406 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.002884387969970703 seconds
+errors: 0
+b_read_on.txt 4506200.0
+time elapsed: 2.9734508991241455 seconds
+errors: 0
+c_incunabula.txt 970488.0
+time elapsed: 1.7718546390533447 seconds
+errors: 0
+d_tough_choices.txt 4356560.0
+time elapsed: 20.46819233894348 seconds
+errors: 0
+e_so_many_books.txt 523081.0
+time elapsed: 1.7226676940917969 seconds
+errors: 0
+f_libraries_of_the_world.txt 1631634.0
+time elapsed: 1.9909861087799072 seconds
+errors: 0
