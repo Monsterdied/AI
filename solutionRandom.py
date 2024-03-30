@@ -1,13 +1,14 @@
 import numpy as np
 from numpy import random
 from book import Book
+import copy
 class Solution:
     def __init__(self):
         #List ordered by signup time
         self.LibrariesSelected = np.array([],dtype=int)
         # {LibraryId: [BookId1, BookId2, ...], ...} where the books are the books selected by the library
         self.BooksSelectedByLibrary = {}
-
+        self.score = 0
     # this function select another random set of books from a given library
     def reshuffleBooksFromLibrary(self,library_id,manager,daysLeft):
         library = manager.libraries[library_id]
@@ -66,7 +67,7 @@ class Solution:
             if DaysLeft-library.signTime >=0 and library_id not in self.LibrariesSelected:
                 DaysLeft = DaysLeft - library.signTime
                 self.LibrariesSelected = np.append(self.LibrariesSelected,library_id)
-                self.BooksSelectedByLibrary[library_id] = np.array([])
+                self.BooksSelectedByLibrary[library_id] = np.array([],dtype=int)
                 self.reshuffleBooksFromLibrary(library_id,manager,DaysLeft)
             # remove from the possible to add to the list of libraries
             libraries_ids = np.delete(libraries_ids,np.where(libraries_ids == library_id))
@@ -135,15 +136,18 @@ class Solution:
         self.FillWithRandomLibraries(manager,manager.nDays)
 
     def evaluate(self,manager):
+        if self.score != 0:
+            return self.score
         score = 0
         books = set()
         for library in self.LibrariesSelected:
-            if library not in self.BooksSelectedByLibrary:
-                continue
+            """if library not in self.BooksSelectedByLibrary:
+                continue"""
             for book_id in self.BooksSelectedByLibrary[library]:
                 if book_id not in books:
                     score += manager.books[book_id]
                     books.add(book_id)
+        self.score = score
         return score
     def mutate_swap_order(self,manager):
         #swap two libraries
@@ -180,6 +184,7 @@ class Solution:
             self.mutate_swap_order(manager)
         elif r == 2:
             self.mutate_shuffle_some_books(manager)
+        self.score = 0 # to invalidate the previous score
 
     def mutate_swap_libraries(self,manager):
         #swap two libraries
@@ -214,6 +219,7 @@ class Solution:
                 if daysLeft > 0:
                     self.BooksSelectedByLibrary.pop(library_id)
                     self.BooksSelectedByLibrary[library_id_j] = np.array([],dtype=int)
+                    self.LibrariesSelected[library_index] = library_id_j
                     self.FillLibrarieWithBooksOrResize(library_id_j,manager,daysLeft)
                 else:
                     self.mutate_shuffle_some_books(manager)
@@ -231,10 +237,10 @@ class Solution:
             self.LibrariesSelected = self.LibrariesSelected[:size_of_libraries]
         if daysLeft > 0:
             self.FillWithRandomLibraries(manager,daysLeft)
-        self.LibrariesSelected[i] = library_id_j
     # this function does single point crossover
     def singlepoint_crossover(self,manager,solution):
         #selects the middle point middle days
+        self.score = 0
         middle_days = manager.nDays//2
         counter_day1 = 0
         libraries1 = np.array([],dtype=int)

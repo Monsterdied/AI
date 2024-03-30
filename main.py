@@ -256,7 +256,7 @@ class DataManager:
         return best_solution
 
     # ------------------------------------Genetic Algorithm-----------------------------------
-    def genetic_algo(self,num_iterations, mutation_rate=0.1,log=False):
+    def genetic_algo(self,num_iterations,selectedByTournmentNumber=10,tournmentSize=5,selectedByRoulete=20, mutation_rate=0.1,log=False):
         # Crate random population
         population = []
         population_size = 30
@@ -282,27 +282,29 @@ class DataManager:
         #print(solution.LibrariesSelected)
         while iteration < num_iterations:
             iteration += 1
-
-            parent_1 = copy.deepcopy(best_solution)
-            parent_2 = copy.deepcopy(population[random.randint(0, population_size - 1)])
-
-            parent_1.singlepoint_crossover(self, parent_2)
-            child = parent_1
-
-            if random.random() < mutation_rate:
-                child.mutation(self)
-
-            population[random.randint(0, population_size - 1)] = child
-
-            child_score = child.evaluate(self)
-            print(f"Solution:       {iteration}, score: {child_score}")
-            if child_score > best_score:
-                best_solution = child
-                best_score = child_score
-                if log:
-                    (print(f"Solution:       {iteration}, score: {best_score}"))
-        
-        #print(f"Final Solution: {best_score}, firstscore: {first_score}")
+            parents = selection(self,population,selectedByTournmentNumber=7,tournmentSize=5,selectedByRoulete=13)
+            survivors = selection(self,population,selectedByTournmentNumber=3,tournmentSize=5,selectedByRoulete=7)
+            new_generation = []
+            for parent_index in np.arange(0,len(parents)-1,2):
+                parent_1 = copy.deepcopy(population[parents[parent_index]])
+                parent_2 = copy.deepcopy(population[parents[parent_index+1]])
+                parent_1.singlepoint_crossover(self, parent_2)
+                child = parent_1
+                new_generation.append(child)
+            # Add survivors to new generation
+            for survivor_id in survivors:
+                new_generation.append(population[survivor_id])
+            population = new_generation
+            for child in population:
+                if random.random() < mutation_rate:
+                    child.mutation(self)
+            for child in population:
+                child_score = child.evaluate(self)
+                if child_score > best_score:
+                    best_solution = child
+                    best_score = child_score
+                    if log:
+                        (print(f"Solution:       {iteration}, score: {best_score}"))
         print(best_solution.LibrariesSelected)
         if best_solution.checkSolution(self):
             print("Solution is valid")
@@ -314,7 +316,46 @@ class DataManager:
         print("time elapsed:",(time.time()-time_start),"seconds")
         print("solution:",best_score)
         return best_solution
+    
+def selection(manager,population,selectedByTournmentNumber,tournmentSize,selectedByRoulete):
+    selected = []
+    pop1 = copy.copy(population)
+    pop2 = copy.copy(population)
+    for i in range(selectedByTournmentNumber):
+        select = tournment_selection(manager,pop1,tournmentSize)
+        pop1.pop(select)
+        selected.append(select)
+    for i in range(selectedByRoulete):
+        select = roulete_selection(manager,pop2)
+        pop2.pop(select)
+        selected.append(select)
+    return selected
 
+def roulete_selection(manager,population):
+    total = sum([sol.evaluate(manager) for sol in population])
+    pick = random.random()*total
+    counter = 0
+    for sol_index in np.arange(len(population)):
+        counter += population[sol_index].evaluate(manager)
+        if counter > pick:
+            return sol_index
+
+def tournment_selection(manager,population,tournment_size):
+    selected = []
+    choices = np.arange(len(population))
+    while len(selected) < tournment_size and len(choices) > 0:
+        tmp = random.choice(choices)
+        selected.append(tmp)
+        choices = np.delete(choices,np.where(choices == tmp))
+    bestScore = -1
+    for index in selected:
+        currScore = population[index].evaluate(manager)
+        if currScore > bestScore:
+            bestScore = currScore
+            bestIndex = index
+    return bestIndex
+
+#------------------------------------- Testing and Status ------------------------------------
 def testHill(n=3,iterations = 1000):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
@@ -412,7 +453,7 @@ def testTabbo(n=3,iterations = 1000):
         for i in range(n):
             time1 = time.time()
             manager =DataManager(test)
-            result1 =  manager.tabu_search(iterations, False)
+            result1 =  manager.tabu_search(iterations)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1
@@ -463,7 +504,7 @@ def buildGraph(datasets,values,typeOfValues,GraphTitle):
     plt.title(GraphTitle)
     plt.savefig("outputs/"+GraphTitle + ".png")
     # Displaying the plot
-    plt.show()
+    #plt.show()
 
 def menu():
     while True:
@@ -557,10 +598,10 @@ def menu1():
 
 
 if __name__ == "__main__":
-    menu()
-    """
-    testHill(3,1000)
-    testAneling(3,1000)
-    testTabbo(3,1000)
-    testGenetic(3,1000)"""
+    #menu()
+    
+    #testHill(3,1000)
+    #testAneling(3,1000)
+    #testTabbo(3,100)
+    testGenetic(3,20)
 
