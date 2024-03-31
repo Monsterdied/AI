@@ -603,8 +603,8 @@ def menu1():
 if __name__ == "__main__":
     #menu()
     
-    #testHill(3,2000)
-    #testAneling(3,2000)
-    testTabbo(3,200,True)
-    #testGenetic(3,200)
+    #testHill(3,1000)
+    #testAneling(3,1000)
+    testTabbo(3,100,True)
+    testGenetic(3,100)
 

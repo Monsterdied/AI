@@ -520,3 +520,74 @@ errors: 0
 c_incunabula.txt 2435535.666666667
 time elapsed: 24.57066837946574 seconds
 errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.0008901755015055338 seconds
+errors: 0
+b_read_on.txt 4282900.0
+time elapsed: 1.0827633539835613 seconds
+errors: 0
+c_incunabula.txt 929838.0
+time elapsed: 0.45205259323120117 seconds
+errors: 0
+d_tough_choices.txt 4345856.666666666
+time elapsed: 4.879564603169759 seconds
+errors: 0
+e_so_many_books.txt 583041.6666666666
+time elapsed: 0.6007933616638184 seconds
+errors: 0
+f_libraries_of_the_world.txt 1170532.6666666665
+time elapsed: 0.6127305030822754 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.02877012888590495 seconds
+errors: 0
+b_read_on.txt 5068900.0
+time elapsed: 21.294262727101643 seconds
+errors: 0
+c_incunabula.txt 1429208.6666666665
+time elapsed: 5.792013804117839 seconds
+errors: 0
+d_tough_choices.txt 4351576.666666666
+time elapsed: 172.95148730278015 seconds
+errors: 0
+e_so_many_books.txt 1545596.3333333333
+time elapsed: 4.661640008290608 seconds
+errors: 0
+f_libraries_of_the_world.txt 2815106.0
+time elapsed: 3.2980305353800454 seconds
+errors: 0
+Simulated anneling with random
+a_example.txt 19.666666666666668
+time elapsed: 0.04487442970275879 seconds
+errors: 0
+b_read_on.txt 5019600.0
+time elapsed: 23.108337720235188 seconds
+errors: 0
+c_incunabula.txt 1421821.6666666667
+time elapsed: 7.025659243265788 seconds
+errors: 0
+d_tough_choices.txt 4347785.0
+time elapsed: 173.49423615137735 seconds
+errors: 0
+e_so_many_books.txt 1599813.6666666667
+time elapsed: 5.492960453033447 seconds
+errors: 0
+f_libraries_of_the_world.txt 2429597.3333333335
+time elapsed: 3.9393142064412436 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.3250979582468669 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.038890441258748375 seconds
+errors: 0
+b_read_on.txt 5017033.333333333
+time elapsed: 20.719308535257976 seconds
+errors: 0
+c_incunabula.txt 1422060.3333333333
+time elapsed: 7.1222968101501465 seconds
+errors: 0
