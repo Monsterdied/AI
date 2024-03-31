@@ -140,7 +140,7 @@ class DataManager:
         return best_solution
     
     # ------------------------------------Tabu Search-----------------------------------    
-    def tabu_search(self,max_iterations):
+    def tabu_search(self,max_iterations,log=False):
         iteration = 0
         stagnation_threshold = 5
         stagnation_count = 0
@@ -179,6 +179,8 @@ class DataManager:
                     if neighbor_score > best_neighbor_score:
                         best_neighbor = neighbor
                         best_neighbor_score = neighbor_score
+                        if log:
+                            print(f"Solution:       {iteration}, score: {best_neighbor_score}")
 
             if best_neighbor is None:
                 print("No valid neighbors")
@@ -206,9 +208,10 @@ class DataManager:
                 if tabu_list[i][1] <= 0:
                     tabu_list.pop(i)
 
-
-        if solution.checkSolution(self):
+        valid = best_solution.checkSolution(self)
+        if valid:
             print("Solution is valid")
+        return best_solution
     
     # ------------------------------------Mutation-----------------------------------
     def simulated_annealing(self,num_iterations, log=False):
@@ -387,7 +390,7 @@ def testHill(n=3,iterations = 1000):
 def testAneling(n=3,iterations = 1000):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
-    f.write("Hill Climbing with random\n")
+    f.write("Simulated anneling with random\n")
     times = []
     results = []
     for test in tests:
@@ -415,7 +418,7 @@ def testAneling(n=3,iterations = 1000):
 def testGenetic(n=3,iterations = 1000):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
-    f.write("Hill Climbing with random\n")
+    f.write("Genetic with random\n")
     times = []
     results = []
     for test in tests:
@@ -440,10 +443,10 @@ def testGenetic(n=3,iterations = 1000):
     f.close()
     buildGraph(tests,results,"Score","Score_Genetic_Algorithm")
     buildGraph(tests,times,"Time","Time_Genetic_Algorithm")
-def testTabbo(n=3,iterations = 1000):
+def testTabbo(n=3,iterations = 1000,log=False):
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
-    f.write("Hill Climbing with random\n")
+    f.write("Tabbo with random\n")
     times = []
     results = []
     for test in tests:
@@ -453,7 +456,7 @@ def testTabbo(n=3,iterations = 1000):
         for i in range(n):
             time1 = time.time()
             manager =DataManager(test)
-            result1 =  manager.tabu_search(iterations)
+            result1 =  manager.tabu_search(iterations,log)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1
@@ -600,8 +603,8 @@ def menu1():
 if __name__ == "__main__":
     #menu()
     
-    #testHill(3,1000)
-    #testAneling(3,1000)
-    #testTabbo(3,100)
-    testGenetic(3,20)
+    #testHill(3,2000)
+    #testAneling(3,2000)
+    testTabbo(3,200,True)
+    #testGenetic(3,200)
 

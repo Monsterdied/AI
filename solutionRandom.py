@@ -48,6 +48,8 @@ class Solution:
         #add random books if the list is too small
         if OldNbooks < NewNbooks:
             randomized_books =  manager.libraries[library_id].books
+            if len(randomized_books) == len(self.BooksSelectedByLibrary[library_id]):
+                return
             addedBooksNumber = NewNbooks - OldNbooks
             for book in randomized_books:
                 if addedBooksNumber == 0:
@@ -177,12 +179,12 @@ class Solution:
         #print(self.BooksSelectedByLibrary)
         self.LibrariesSelected[i],self.LibrariesSelected[j] = self.LibrariesSelected[j],self.LibrariesSelected[i]
     def mutation(self,manager):
-        r = random.randint(0,3)
-        if r == 0:
+        r = random.random()
+        if r < 0.10:
             self.mutate_swap_libraries(manager)
-        elif r == 1:
+        elif r > 0.10 and r < 0.20:
             self.mutate_swap_order(manager)
-        elif r == 2:
+        elif r > 0.20 :
             self.mutate_shuffle_some_books(manager)
         self.score = 0 # to invalidate the previous score
 
