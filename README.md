@@ -58,6 +58,21 @@ Enter your choice:
 Enter number of iterations: 
 ```
 
+ - To change the way that the solution is handled is needed to change the imports
+    - Using Radom Solution
+```python
+#from solution import Solution
+#BooksSorted = True
+from solutionRandom import Solution
+BooksSorted = False
+```
+- Using Greedy Solution
+```python
+from solution import Solution
+BooksSorted = True
+#from solutionRandom import Solution
+#BooksSorted = False
+```
 
 If you wish to do so, you can change the parameters of the algorithms in the respective file, that is, the main.py file.
 
