@@ -591,3 +591,7 @@ errors: 0
 c_incunabula.txt 1422060.3333333333
 time elapsed: 7.1222968101501465 seconds
 errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.02200492223103841 seconds
+errors: 0

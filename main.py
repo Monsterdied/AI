@@ -511,7 +511,7 @@ def buildGraph(datasets,values,typeOfValues,GraphTitle):
 
 def menu():
     while True:
-        print("Select type of algorithm:")
+        print("Select option:")
         print("1 - Main Menu")
         print("2 - Test")
         print("3 - Exit")
@@ -539,7 +539,7 @@ def menuTest():
         algorithm = input("Enter your choice:")
 
         if algorithm in ["1","2","3","4","5"]:
-            print("Select How many times to run the algorithm in each dataset and the maverage the results")
+            print("Select How many times to run the algorithm in each dataset and the average the results")
             n = int(input())
             iterations = input("Enter number of iterations: ")
             if not iterations.isdigit() or int(iterations) < 1:
@@ -601,10 +601,6 @@ def menu1():
 
 
 if __name__ == "__main__":
-    #menu()
+    menu()
     
-    #testHill(3,1000)
-    #testAneling(3,1000)
-    testTabbo(3,100,True)
-    testGenetic(3,100)
 
