@@ -1,0 +1,597 @@
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Error in test
+a_example.txt 14.0
+time elapsed: 0.0843653678894043 seconds
+Error in test
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.08488957087198894 seconds
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 9.577606360117594 seconds
+c_incunabula.txt 1002190.6666666666
+time elapsed: 1.6327145894368489 seconds
+Error in test
+Error in test
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.09001525243123372 seconds
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 10.76266916592916 seconds
+c_incunabula.txt 898221.3333333335
+time elapsed: 1.6344532171885173 seconds
+Error in test
+Error in test
+####### new random test portatilHill Climbing with random 2000
+a_example.txt 21.0
+time elapsed: 0.06246757507324219 seconds
+b_read_on.txt 5623566.666666666
+time elapsed: 27.87670620282491 seconds
+c_incunabula.txt 862302.0
+time elapsed: 3.8451565901438394 seconds
+d_tough_choices.txt 4347546.666666666
+time elapsed: 186.50971269607544 seconds
+e_so_many_books.txt 1466846.6666666667
+time elapsed: 5.142741759618123 seconds
+f_libraries_of_the_world.txt 36378111.666666664
+time elapsed: 25.85975670814514 seconds
+####### new random test portatilHill Climbing with random 4000
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.11705549558003743 seconds
+errors: 0
+b_read_on.txt 5614300.0
+time elapsed: 52.273575941721596 seconds
+errors: 0
+c_incunabula.txt 889526.3333333333
+time elapsed: 5.513914903004964 seconds
+errors: 0
+d_tough_choices.txt 4356581.666666666
+time elapsed: 308.5304923057556 seconds
+errors: 0
+e_so_many_books.txt 6305446.666666666
+time elapsed: 15.926863193511963 seconds
+errors: 0
+f_libraries_of_the_world.txt 39214385.0
+time elapsed: 61.6555270353953 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.2965869903564453 seconds
+errors: 0
+b_read_on.txt 6193133.333333333
+time elapsed: 126.17369532585144 seconds
+errors: 0
+c_incunabula.txt 927300.3333333333
+time elapsed: 14.189613342285156 seconds
+errors: 0
+d_tough_choices.txt 4353115.0
+time elapsed: 774.9908611774445 seconds
+errors: 0
+e_so_many_books.txt 11113292.333333334
+time elapsed: 67.26647138595581 seconds
+errors: 0
+f_libraries_of_the_world.txt 39838250.666666664
+time elapsed: 218.23063985506693 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 29.242665767669678 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.0337227980295817 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.15120228131612143 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.0
+time elapsed: 0.1412073771158854 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.666666666666668
+time elapsed: 0.1421515146891276 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 19.333333333333332
+time elapsed: 0.13280081748962402 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 16.666666666666668
+time elapsed: 0.0557699998219808 seconds
+errors: 0
+b_read_on.txt 4691600.0
+time elapsed: 7.025847593943278 seconds
+errors: 0
+c_incunabula.txt 1163312.3333333333
+time elapsed: 2.899533669153849 seconds
+errors: 0
+d_tough_choices.txt 4389883.333333333
+time elapsed: 81.28635207811992 seconds
+errors: 0
+e_so_many_books.txt 1531342.6666666667
+time elapsed: 2.7116612593332925 seconds
+errors: 0
+f_libraries_of_the_world.txt 1922896.0
+time elapsed: 3.265809933344523 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.05236275990804037 seconds
+errors: 0
+b_read_on.txt 5616733.333333334
+time elapsed: 14.490536451339722 seconds
+errors: 0
+c_incunabula.txt 1028851.0
+time elapsed: 2.2175797621409097 seconds
+errors: 0
+d_tough_choices.txt 4356971.666666666
+time elapsed: 106.73622099558513 seconds
+errors: 0
+e_so_many_books.txt 1428065.6666666667
+time elapsed: 3.5336395104726157 seconds
+errors: 0
+f_libraries_of_the_world.txt 1958889.3333333333
+time elapsed: 3.102041006088257 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.04295166333516439 seconds
+errors: 0
+b_read_on.txt 5603800.0
+time elapsed: 14.469267209370932 seconds
+errors: 0
+c_incunabula.txt 2158921.333333333
+time elapsed: 15.046292225519815 seconds
+errors: 0
+d_tough_choices.txt 4361456.666666667
+time elapsed: 259.0817611217499 seconds
+errors: 0
+e_so_many_books.txt 2239201.0
+time elapsed: 5.164354642232259 seconds
+errors: 0
+f_libraries_of_the_world.txt 4138633.333333334
+time elapsed: 6.066478093465169 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.04123385747273763 seconds
+errors: 0
+b_read_on.txt 4564766.666666667
+time elapsed: 7.623535553614299 seconds
+errors: 0
+c_incunabula.txt 982959.3333333333
+time elapsed: 6.7902664343516035 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.003306150436401367 seconds
+errors: 0
+b_read_on.txt 4467000.0
+time elapsed: 3.0554845333099365 seconds
+errors: 0
+c_incunabula.txt 894241.0
+time elapsed: 0.9995720386505127 seconds
+errors: 0
+d_tough_choices.txt 4343170.0
+time elapsed: 25.26176619529724 seconds
+errors: 0
+e_so_many_books.txt 635803.0
+time elapsed: 1.761518955230713 seconds
+errors: 0
+f_libraries_of_the_world.txt 1045879.0
+time elapsed: 1.8796772956848145 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.003231525421142578 seconds
+errors: 0
+b_read_on.txt 4766500.0
+time elapsed: 3.1035468578338623 seconds
+errors: 0
+c_incunabula.txt 1074203.0
+time elapsed: 2.425966501235962 seconds
+errors: 0
+d_tough_choices.txt 4343430.0
+time elapsed: 18.3627028465271 seconds
+errors: 0
+e_so_many_books.txt 631698.0
+time elapsed: 2.2881431579589844 seconds
+errors: 0
+f_libraries_of_the_world.txt 1014183.0
+time elapsed: 2.7868611812591553 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.0029816627502441406 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.002884387969970703 seconds
+errors: 0
+b_read_on.txt 4506200.0
+time elapsed: 2.9734508991241455 seconds
+errors: 0
+c_incunabula.txt 970488.0
+time elapsed: 1.7718546390533447 seconds
+errors: 0
+d_tough_choices.txt 4356560.0
+time elapsed: 20.46819233894348 seconds
+errors: 0
+e_so_many_books.txt 523081.0
+time elapsed: 1.7226676940917969 seconds
+errors: 0
+f_libraries_of_the_world.txt 1631634.0
+time elapsed: 1.9909861087799072 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.04332327842712402 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.03607408205668131 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.041867335637410484 seconds
+errors: 0
+b_read_on.txt 5587133.333333333
+time elapsed: 15.31571912765503 seconds
+errors: 0
+c_incunabula.txt 2164008.6666666665
+time elapsed: 10.906282901763916 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.03514591852823893 seconds
+errors: 0
+b_read_on.txt 5533433.333333333
+time elapsed: 13.35417898495992 seconds
+errors: 0
+c_incunabula.txt 2108208.6666666665
+time elapsed: 11.427054007848104 seconds
+errors: 0
+d_tough_choices.txt 4366331.666666667
+time elapsed: 268.2488470872243 seconds
+errors: 0
+e_so_many_books.txt 2291720.666666667
+time elapsed: 4.431835810343425 seconds
+errors: 0
+f_libraries_of_the_world.txt 3581122.0
+time elapsed: 4.844308614730835 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.03438051541646322 seconds
+errors: 0
+b_read_on.txt 5550133.333333333
+time elapsed: 13.193565209706625 seconds
+errors: 0
+c_incunabula.txt 2012030.0
+time elapsed: 11.597153981526693 seconds
+errors: 0
+d_tough_choices.txt 4368671.666666667
+time elapsed: 235.17239093780518 seconds
+errors: 0
+e_so_many_books.txt 2258040.3333333335
+time elapsed: 4.7280674775441485 seconds
+errors: 0
+f_libraries_of_the_world.txt 3875323.0
+time elapsed: 4.768948872884114 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 18.0
+time elapsed: 0.05886411666870117 seconds
+errors: 0
+b_read_on.txt 5558900.0
+time elapsed: 15.565017541249594 seconds
+errors: 0
+c_incunabula.txt 2072036.0
+time elapsed: 12.60854204495748 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 18.333333333333336
+time elapsed: 0.06552720069885254 seconds
+errors: 0
+b_read_on.txt 5583166.666666667
+time elapsed: 17.449036121368408 seconds
+errors: 0
+c_incunabula.txt 2078015.6666666665
+time elapsed: 15.571479002634684 seconds
+errors: 0
+d_tough_choices.txt 4354545.0
+time elapsed: 294.0653286774953 seconds
+errors: 0
+e_so_many_books.txt 2190385.6666666665
+time elapsed: 6.154689391454061 seconds
+errors: 0
+f_libraries_of_the_world.txt 3653664.666666667
+time elapsed: 6.540243943532308 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 18.0
+time elapsed: 0.061513423919677734 seconds
+errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.01494582494099935 seconds
+errors: 0
+b_read_on.txt 4584300.0
+time elapsed: 4.031267245610555 seconds
+errors: 0
+c_incunabula.txt 1029716.0
+time elapsed: 5.316079934438069 seconds
+errors: 0
+d_tough_choices.txt 4358488.333333334
+time elapsed: 60.91963219642639 seconds
+errors: 0
+e_so_many_books.txt 810166.6666666665
+time elapsed: 1.0160303115844727 seconds
+errors: 0
+f_libraries_of_the_world.txt 2078983.0
+time elapsed: 1.5580228964487712 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.07488743464152019 seconds
+errors: 0
+b_read_on.txt 5738033.333333334
+time elapsed: 31.619810740152996 seconds
+errors: 0
+c_incunabula.txt 2702406.0
+time elapsed: 25.356048822402954 seconds
+errors: 0
+d_tough_choices.txt 4378876.666666666
+time elapsed: 574.9038230578104 seconds
+errors: 0
+e_so_many_books.txt 2604416.3333333335
+time elapsed: 11.961561600367228 seconds
+errors: 0
+f_libraries_of_the_world.txt 4038783.666666666
+time elapsed: 12.891347328821817 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 16.333333333333332
+time elapsed: 0.12235418955485027 seconds
+errors: 0
+b_read_on.txt 5732533.333333334
+time elapsed: 34.00078280766805 seconds
+errors: 0
+c_incunabula.txt 2656993.0
+time elapsed: 27.105883757273357 seconds
+errors: 0
+d_tough_choices.txt 4360070.0
+time elapsed: 571.7503825028738 seconds
+errors: 0
+e_so_many_books.txt 2699048.3333333335
+time elapsed: 13.465312719345093 seconds
+errors: 0
+f_libraries_of_the_world.txt 4255472.0
+time elapsed: 14.538558403650919 seconds
+errors: 0
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.07240931193033855 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 30.14184268315633 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+c_incunabula.txt 0
+time elapsed: 28.005693276723225 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+d_tough_choices.txt 0
+time elapsed: 561.1303239663442 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+e_so_many_books.txt 0
+time elapsed: 9.890326658884684 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+f_libraries_of_the_world.txt 0
+time elapsed: 12.16310159365336 seconds
+errors: 3
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.11412183443705241 seconds
+errors: 0
+b_read_on.txt 5179133.333333333
+time elapsed: 17.218501726786297 seconds
+errors: 0
+c_incunabula.txt 1361475.3333333333
+time elapsed: 21.26456101735433 seconds
+errors: 0
+d_tough_choices.txt 4359463.333333333
+time elapsed: 420.598504225413 seconds
+errors: 0
+e_so_many_books.txt 1275549.3333333333
+time elapsed: 4.021654526392619 seconds
+errors: 0
+f_libraries_of_the_world.txt 2658827.6666666665
+time elapsed: 9.491757869720459 seconds
+errors: 0
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.06682904561360677 seconds
+errors: 3
+Hill Climbing with random
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.09561983744303386 seconds
+errors: 3
+Hill Climbing with random
+Error in test
+Error in test
+Error in test
+a_example.txt 0
+time elapsed: 0.08787989616394043 seconds
+errors: 3
+Error in test
+Error in test
+Error in test
+b_read_on.txt 0
+time elapsed: 27.335872173309326 seconds
+errors: 3
+Hill Climbing with random
+a_example.txt 19.666666666666668
+time elapsed: 0.09719705581665039 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 19.666666666666668
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.09088595708211263 seconds
+errors: 0
+b_read_on.txt 5687733.333333334
+time elapsed: 28.472465753555298 seconds
+errors: 0
+c_incunabula.txt 2435535.666666667
+time elapsed: 24.57066837946574 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.0008901755015055338 seconds
+errors: 0
+b_read_on.txt 4282900.0
+time elapsed: 1.0827633539835613 seconds
+errors: 0
+c_incunabula.txt 929838.0
+time elapsed: 0.45205259323120117 seconds
+errors: 0
+d_tough_choices.txt 4345856.666666666
+time elapsed: 4.879564603169759 seconds
+errors: 0
+e_so_many_books.txt 583041.6666666666
+time elapsed: 0.6007933616638184 seconds
+errors: 0
+f_libraries_of_the_world.txt 1170532.6666666665
+time elapsed: 0.6127305030822754 seconds
+errors: 0
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.02877012888590495 seconds
+errors: 0
+b_read_on.txt 5068900.0
+time elapsed: 21.294262727101643 seconds
+errors: 0
+c_incunabula.txt 1429208.6666666665
+time elapsed: 5.792013804117839 seconds
+errors: 0
+d_tough_choices.txt 4351576.666666666
+time elapsed: 172.95148730278015 seconds
+errors: 0
+e_so_many_books.txt 1545596.3333333333
+time elapsed: 4.661640008290608 seconds
+errors: 0
+f_libraries_of_the_world.txt 2815106.0
+time elapsed: 3.2980305353800454 seconds
+errors: 0
+Simulated anneling with random
+a_example.txt 19.666666666666668
+time elapsed: 0.04487442970275879 seconds
+errors: 0
+b_read_on.txt 5019600.0
+time elapsed: 23.108337720235188 seconds
+errors: 0
+c_incunabula.txt 1421821.6666666667
+time elapsed: 7.025659243265788 seconds
+errors: 0
+d_tough_choices.txt 4347785.0
+time elapsed: 173.49423615137735 seconds
+errors: 0
+e_so_many_books.txt 1599813.6666666667
+time elapsed: 5.492960453033447 seconds
+errors: 0
+f_libraries_of_the_world.txt 2429597.3333333335
+time elapsed: 3.9393142064412436 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.3250979582468669 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.038890441258748375 seconds
+errors: 0
+b_read_on.txt 5017033.333333333
+time elapsed: 20.719308535257976 seconds
+errors: 0
+c_incunabula.txt 1422060.3333333333
+time elapsed: 7.1222968101501465 seconds
+errors: 0
+Tabbo with random
+a_example.txt 21.0
+time elapsed: 0.02200492223103841 seconds
+errors: 0
