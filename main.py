@@ -1,17 +1,20 @@
 
 from library import Library
 from book import Book
-#from solution import Solution
-from solutionRandom import Solution
 from sortedcontainers import SortedList
 from concurrent.futures import ThreadPoolExecutor
 import time
 import copy
 import numpy as np
+# if u want to chenge the algorithm to the solution u need 
+#from solution import Solution
+#BooksSorted = True
+from solutionRandom import Solution
+BooksSorted = False
 class DataManager:    
 
     # ------------------------------------read data -----------------------------------
-    def __init__(self,filename,BooksSorted = True):
+    def __init__(self,filename):
         self.filename = "./data/" + filename
         self.libraries = {}
         self.books = []
@@ -25,7 +28,7 @@ class DataManager:
         libraryId = 0
         while line != "\n":
             line2 = file1.readline() #comment
-            self.read_library_data(libraryId,line,line2,BooksSorted)
+            self.read_library_data(libraryId,line,line2)
             libraryId += 1
             line = file1.readline()
         if libraryId != self.nLibraries:
@@ -49,7 +52,7 @@ class DataManager:
         if i != self.nBooks:
             print("Error in reading book rating\nNumber of books read is not equal to the number of books mentioned in the file rating")
 
-    def read_library_data(self,libraryId,firstLine,secondLine,BooksSorted):
+    def read_library_data(self,libraryId,firstLine,secondLine):
         data = firstLine.split(' ')
         nbooks = int(data[0])
         signTime = int(data[1])
@@ -102,7 +105,7 @@ class DataManager:
         print(f"Init Solution:  {best_score}, score: {best_score}")
         time1 = time.time()
         time_start = time1
-        print(solution.LibrariesSelected)
+        #print(solution.LibrariesSelected)
         while iteration < num_iterations:
             """if iteration % 1000 == 0:
                 time2 = time.time()
@@ -129,7 +132,7 @@ class DataManager:
             print("Solution is invalid")
             return False
         print("time elapsed:",(time.time()-time_start),"seconds")
-        print("solution:",best_score.evaluate(self))
+        print("solution:",best_score)
         return best_solution
     
     # ------------------------------------Tabu Search-----------------------------------    
@@ -206,7 +209,7 @@ class DataManager:
         #--------------------------------------------------------------------------------
 
 
-def test(Sorted = True):
+def test():
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     f = open("./tests/result1.txt", "a")
     f.write("Hill Climbing with random\n")
@@ -217,8 +220,8 @@ def test(Sorted = True):
         errors = 0
         for i in range(n):
             time1 = time.time()
-            manager =DataManager(test,Sorted)
-            result1 =  manager.hill_climbing(4000, False)
+            manager =DataManager(test)
+            result1 =  manager.hill_climbing(1000, False)
             if not result1:
                 f.write("Error in test\n")
                 errors += 1
@@ -246,17 +249,21 @@ def testCrossover(manager,sorted = True):
     else:
         print("Solution is valid")
         return True
-def testAll(order = True):
+def testAll():
     tests = ["a_example.txt","b_read_on.txt","c_incunabula.txt","d_tough_choices.txt","e_so_many_books.txt","f_libraries_of_the_world.txt"]
     for i in tests:
         print(i)
-        manager = DataManager(i,order)
-        if not testCrossover(manager,order):
+        manager = DataManager(i)
+        if not testCrossover(manager):
             print("Error in test")
             return False
     print("All tests passed")
 
 if __name__ == "__main__":
-    manager = DataManager("b_read_on.txt",False)
-    manager.tabu_search(50)
+    #test()
+    manager = DataManager("b_read_on.txt")
+    for i in range(10):
+        solution = manager.hill_climbing(1000, True)
+        print(solution.LibrariesSelected)
+        solution.BooksSelectedByLibrary
     manager.hill_climbing(250, True)

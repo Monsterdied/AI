@@ -75,3 +75,15 @@ Hill Climbing with random
 a_example.txt 21.0
 time elapsed: 0.15033340454101562 seconds
 errors: 0
+Hill Climbing with random
+Hill Climbing with random
+a_example.txt 21.0
+time elapsed: 0.033771673838297524 seconds
+errors: 0
+Error in test
+b_read_on.txt 3478733.3333333335
+time elapsed: 15.967491626739502 seconds
+errors: 1
+c_incunabula.txt 900690.3333333333
+time elapsed: 2.6583693822224936 seconds
+errors: 0
